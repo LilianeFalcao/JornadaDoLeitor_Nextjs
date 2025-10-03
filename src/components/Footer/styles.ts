@@ -1,10 +1,17 @@
-'use client'
-import { colors } from "@/styles/colors";
-import styled from "styled-components";
+"use client"
 
-export const SFooter = styled.footer`
+import { Colors } from "@/styles/colors"
+import styled from "styled-components"
+
+export const FooterContainer = styled.footer`
     display: flex;
+    justify-content: center;
     align-items: center;
-    border-top: 0.5rem solid ${colors.secondary};
-    height: 3rem;
+    background-color:${Colors.CorCabecalho};
+    height: 4.2rem;
+
+    h2 {
+        margin: 5px;
+        color: ${Colors.Textos}
+    }
 `

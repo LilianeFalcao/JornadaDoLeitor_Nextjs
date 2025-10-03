@@ -1,9 +1,9 @@
+import { FooterContainer } from "./styles";
 
-
-export function Footer() {
-    return (
-        <footer className="container">
-            @copyleft
-        </footer>
-    )
+export default function Footer () {
+    return(
+         <FooterContainer>
+            <h2>Todos os direitos reservados © 2025 JornadaDoLeitor.</h2>
+        </FooterContainer>
+    );
 }

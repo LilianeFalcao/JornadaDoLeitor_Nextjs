@@ -1,35 +1,51 @@
-'use client'
-import { colors } from "@/styles/colors";
-import styled from "styled-components";
+"use client"
 
-export const SDark = styled.input`
-    display: none;
-`
+import { Colors } from "@/styles/colors"
+import styled from "styled-components"
 
-export const SHeader = styled.header`
+export const HeaderContainer = styled.header`
+    background-color: ${Colors.CorCabecalho};
+    color: white;
     display: flex;
     justify-content: space-between;
-    border-bottom: 0.5rem solid ${colors.secondary};
+    align-items: center;
+    padding: 20px;
     height: 5rem;
 
     img {
-        padding: 0.5rem;
+        height: 50px;
     }
 
-    input {
-        display: none;
-    }
-
-    nav {
-        padding: 0.5rem;
+    nav ul {
+        list-style: none;
         display: flex;
-        align-items: center;
+        gap: 20px;
+    }
 
-        a {
-            padding: 0.7rem;
-            background-color: ${colors.secondary};
-            text-decoration: none;
-            border-radius: 0.7rem;
+    nav a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        &:hover {
+        color: ${Colors.EfeitoBotao};
         }
     }
+
+    nav button,
+    nav .btn {
+        background-color: ${Colors.Botao};
+        color: #ffffff;
+        padding: 8px 14px;
+        border-radius: 6px;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+
+        &:hover {
+        background-color: ${Colors.EfeitoBotao};
+        color: white;
+        }
+    }
+
 `
