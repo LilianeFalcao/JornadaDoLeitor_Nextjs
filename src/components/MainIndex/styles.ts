@@ -115,4 +115,52 @@ export const Actions = styled.nav`
       background: ${Colors.EfeitoBotao};
     }
   }
-`;
+
+`
+// Área dos filtros
+  export const FiltrosContainder = styled.aside`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+
+  `
+
+  export const Search = styled.form`
+    flex: 1;
+    display: flex;
+
+    input[type="search"] {
+      background-color: ${Colors.buscar};
+      border-radius: 15px;
+      padding: 12px 20px;
+      width: 100%;
+      max-width: 600px;
+      border: none;
+      outline: none;
+    }
+  
+  `
+
+  export const Filtros = styled.aside`
+    display: flex;
+    gap: 20px;
+  
+    button {
+      background-color: ${Colors.Botao};
+      color: ${Colors.Textos  };
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    
+    &:hover { background-color: ${Colors.EfeitoBotao} }  
+    
+    }
+  `   
+;
+

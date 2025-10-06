@@ -5,5 +5,8 @@ export const Colors = {
     Botao: "#455a64",
     EfeitoBotao: "#97b5c2",
     Titulo: "#333",
-    Textos: "#ffff"
+    Textos: "#ffff",
+    Completo: "#4caf50",
+    Lendo: "#ffa726",
+    buscar: "#b7bfca",
 }

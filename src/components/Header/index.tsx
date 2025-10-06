@@ -15,7 +15,8 @@ export function Header() {
       <nav>
         <ul>
           <li>
-            <Link href="#">Feed</Link>
+            <Link href="
+            ">Feed</Link>
           </li>
           <li>
             <Link href="MyProgress">Meu Progresso</Link>
