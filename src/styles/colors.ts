@@ -9,4 +9,5 @@ export const Colors = {
     Completo: "#4caf50",
     Lendo: "#ffa726",
     buscar: "#b7bfca",
+    LoginRegisterFundo: "#1e272e"
 }
