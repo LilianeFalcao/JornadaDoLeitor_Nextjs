@@ -4,8 +4,9 @@ import { Colors } from "@/styles/colors";
 import styled from "styled-components";
 
 export const LoginContainer = styled.main`
-     display: flex;
+    display: flex;
     /* Centraliza o container na tela */
+
     margin: 40px auto; 
     width: 900px;
     max-width: 95%;
@@ -68,7 +69,7 @@ export const LoginContainer = styled.main`
             border: 1px solid #444; 
             border-radius: 8px;
             outline: none;
-            background-color: #333;
+            background-color:transparent;
             color: #fff;
             font-size: 1rem;
             transition: border-color 0.2s;
@@ -80,31 +81,6 @@ export const LoginContainer = styled.main`
 
         input::placeholder {
             color: #b0bec5;
-        }
-    }
-
-    /*
-    ** Responsividade (Media Query)**
-    O layout é 50/50 em telas maiores.
-    */
-    @media (min-width: 768px) {
-        /* A imagem aparece no desktop/tablet */
-        & > figure {
-            display: block; 
-        }
-
-        /* A seção de formulário fica com flex: 1 */
-        & > section {
-            flex: 1;
-        }
-    }
-
-    /* Em telas muito grandes, podemos dar um pouco mais de espaço para o formulário */
-    @media (min-width: 1024px) {
-        width: 1000px;
-        & > section {
-             /* Aumenta o padding para melhor espaçamento em telas maiores */
-             padding: 60px 50px; 
         }
     }
 `

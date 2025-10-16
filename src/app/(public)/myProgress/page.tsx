@@ -1,7 +1,7 @@
 import Image from "next/image";
 //Images
 import Kimetsu from "@/assets/Manga_Kimetsu_No_Yaiba.jpg"
-import Lixeira from "@/assets/Icon_Delete.png"
+import Lixeira from "@/assets/delete.png"
 import Up from "@/assets/Icon_Edit.png"
 import Doll from "@/assets/SonoBisqueDoll_Manga.jpg"
 import { 
