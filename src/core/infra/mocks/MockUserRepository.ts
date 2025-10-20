@@ -1,9 +1,17 @@
+import { Nickname } from "@/core/domain/value-objects/Nickname";
 import { User } from "../../domain/entity/User";
 import { IUserRepository } from "../../domain/repositories/IUserRepository";
+import { Email } from "@/core/domain/value-objects/Email";
+import { Password } from "@/core/domain/value-objects/Password";
 
 export class MockUserRepository implements IUserRepository{
     private static instance: MockUserRepository;
-    private users: User[] = [];
+    private users: User[] = [{
+            id: 'user-1',
+            nickname: Nickname.create('Hawks'),
+            email: Email.create('linnYohan@gmail.com'),
+            password: Password.create('hashed_12345@aA')
+    }];
         
     private constructor() {}
 

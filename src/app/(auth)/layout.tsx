@@ -1,4 +1,6 @@
+import { AuthProvider } from "@/context/AuthContext";
 import type { Metadata } from "next";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Login",
@@ -12,9 +14,10 @@ export default function Layout({
 }>) {
   return (
     <div className="w-full auth-wrapper">
-      <div>
+      <AuthProvider>
         {children}
-      </div>
+      </AuthProvider>
+      <Toaster richColors position="top-right" />
     </div>
   );
 }

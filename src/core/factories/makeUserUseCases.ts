@@ -1,6 +1,7 @@
 import { IUserRepository } from "../domain/repositories/IUserRepository";
 import { DeleteUser } from "../domain/use-cases/DeleteUser";
 import { FindUser } from "../domain/use-cases/FindUser";
+import { FindUserByEmail } from "../domain/use-cases/FindUserByEmail";
 import { LoginUser } from "../domain/use-cases/LoginUser";
 import { RegisterUser } from "../domain/use-cases/RegisterUser";
 import { UpdateUser } from "../domain/use-cases/UpdateUser";
@@ -13,6 +14,7 @@ export function makeUserUseCases() {
     const loginUser = new LoginUser(userRepository)
     const updateUser = new UpdateUser(userRepository)
     const deleteUser = new DeleteUser(userRepository)
+    const findByEmail = new FindUserByEmail(userRepository)
     const findUser = new FindUser(userRepository)
 
     return{
@@ -20,6 +22,7 @@ export function makeUserUseCases() {
         loginUser,
         updateUser,
         deleteUser,
+        findByEmail,
         findUser
     }
 }
