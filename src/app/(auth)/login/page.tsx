@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Jujustsu from "../../../assets/Manga_Jujutsu_Kaisen.jpg"
+import Jujustsu from "@/assets/Manga_Jujutsu_Kaisen.jpg"
 import { LoginForm } from "@/components/Forms/LoginForm";
 import { LoginContainer } from "./styles";
 import Link from "next/link";
