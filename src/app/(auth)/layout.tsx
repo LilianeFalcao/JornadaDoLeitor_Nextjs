@@ -1,8 +1,8 @@
+import { AuthProvider } from "@/context/AuthContext";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Login",
-  description: "Your favorite Habit Tracker",
+  title: "Página de Login",
 };
 
 export default function Layout({
@@ -12,9 +12,9 @@ export default function Layout({
 }>) {
   return (
     <div className="w-full auth-wrapper">
-      <div>
+      <AuthProvider>
         {children}
-      </div>
+      </AuthProvider>
     </div>
   );
 }
