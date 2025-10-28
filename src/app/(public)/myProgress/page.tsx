@@ -12,6 +12,7 @@ import {CardActions} from "@/app/(public)/myProgress/styles"
 //import do modal em shadcn
 import { Button } from "@/components/ui/button"
 import {
+<<<<<<< HEAD
   Dialog,
   DialogClose,
   DialogContent,
@@ -20,11 +21,22 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+=======
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+>>>>>>> 55a7e8956e83ca4fef89d7bec2cbce7faed2f279
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 import {
+<<<<<<< HEAD
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -34,6 +46,17 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
+=======
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+>>>>>>> 55a7e8956e83ca4fef89d7bec2cbce7faed2f279
 } from "@/components/ui/alert-dialog"
 import { Textarea } from "@/components/ui/textarea"
 
@@ -41,7 +64,11 @@ import { Textarea } from "@/components/ui/textarea"
 export default function MyProgress ( ) {
     return (
         <>
+<<<<<<< HEAD
            <MainContainer>
+=======
+            <MainContainer>
+>>>>>>> 55a7e8956e83ca4fef89d7bec2cbce7faed2f279
                 <h1>Meu Progresso de Leitura</h1>
                 <p>Acompanhe e gerencie sua coleção de mangás</p>
 

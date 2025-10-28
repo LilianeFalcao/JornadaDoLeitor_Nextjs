@@ -6,29 +6,45 @@ export class MockMangasRepository implements IMangasRepository{
 
     private mangas: Mangas[] = [
     Mangas.create(
+<<<<<<< HEAD
         "manga-1",
         "https://d14d9vp3wdof84.cloudfront.net/image/589816272436/image_uj0nprci6p7cb3gmf683i87i0b/-S897-FWEBP",
+=======
+        "1",
+        "https://example.com/vinland.jpg",
+>>>>>>> 55a7e8956e83ca4fef89d7bec2cbce7faed2f279
         "Vinland Saga",
         "Makoto Yukimura",
         "Seinen",
         220
     ),
     Mangas.create(
+<<<<<<< HEAD
         "manga-2",
         "https://bancaconect.com.br/wp-content/uploads/2020/12/Naruto-Gold-35-.jpg",
+=======
+        "2",
+        "https://example.com/naruto.jpg",
+>>>>>>> 55a7e8956e83ca4fef89d7bec2cbce7faed2f279
         "Naruto",
         "Masashi Kishimoto",
         "Shonen",
         720
     ),
     Mangas.create(
+<<<<<<< HEAD
         "manga-3",
         "https://imgs.search.brave.com/2HpKCxP4Au8c04dPeddjea6Y9qo44oxK9e2BM3_jwpY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvcHQvdGh1bWIv/NC80NS9CbGVhY2hf/dm9sLl8wMS5qcGcv/NTEycHgtQmxlYWNo/X3ZvbC5fMDEuanBn",
+=======
+        "3",
+        "https://example.com/bleach.jpg",
+>>>>>>> 55a7e8956e83ca4fef89d7bec2cbce7faed2f279
         "Bleach",
         "Tite Kubo",
         "Shounen",
         686
     ),
+<<<<<<< HEAD
     Mangas.create(
         "manga-4",
         "https://imgs.search.brave.com/1yt4EHx9fAln-hJ-yFhYwY2_3kUY9a-WjQTBZOcT2ok/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvcHQvdGh1bWIv/OS85Zi9GdWxsbWV0/YWxfQWxjaGVtaXN0/LmpwZy81MTJweC1G/dWxsbWV0YWxfQWxj/aGVtaXN0LmpwZw",
@@ -37,6 +53,8 @@ export class MockMangasRepository implements IMangasRepository{
         "Shounen",
         108
     ),
+=======
+>>>>>>> 55a7e8956e83ca4fef89d7bec2cbce7faed2f279
     ];
 
     public static getInstance(): MockMangasRepository{
