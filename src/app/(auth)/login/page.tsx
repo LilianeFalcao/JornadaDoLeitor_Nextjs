@@ -74,10 +74,10 @@ export default function LoginPage(){
             <CardFooter className="flex flex-col gap-3 justify-between">
                 <Button className="bg-[#455a64] w-full cursor-pointer hover:bg-[#569cbcff] " onClick={handleLogin}>Entrar</Button>
                 <div className="flex items-center space-x-2 "> 
-                    <p className="m-0">
+                    <p className="text-sm text-gray-700">
                         Primeira vez aqui?
                     </p>
-                    <Button className="p-2 border-none cursor-pointer " variant="outline" onClick={() => router.push("/register")}>
+                    <Button className="text-blue-400 hover:underline border-none cursor-pointer " variant="outline" onClick={() => router.push("/register")}>
                         Cadastre-se
                     </Button>
                 </div>

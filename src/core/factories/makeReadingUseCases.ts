@@ -17,7 +17,7 @@ export function makeReadingUseCases() {
     const addReading = new AddReading(
         readingsRepository,
         userRepository,
-        mangaRepository
+        mangaRepository,
     );
 
     const deleteReading = new DeleteReading(readingsRepository);

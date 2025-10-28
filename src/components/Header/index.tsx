@@ -2,6 +2,7 @@ import Image from "next/image";
 import Logo from "../../assets/Logo.png"
 import Link from "next/link";
 import { HeaderContainer } from "./styles";
+import { AddMangaModal } from "../AddMangaModal/AddMangaModal";
 
 export function Header() {
   return (
@@ -21,9 +22,7 @@ export function Header() {
             <Link href="myProgress">Meu Progresso</Link>
           </li>
           <li>
-            <Link className="btn" href="#">
-              + Adicionar Progresso
-            </Link>
+            <AddMangaModal />
           </li>
         </ul>
       </nav>
