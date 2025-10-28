@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Button } from "@/components/ui/button"
-import Image from "next/image"
+//import Image from "next/image"
 
 import { makeMangaUseCases } from "@/core/factories/makeMangaUseCases"
 
@@ -35,7 +35,7 @@ export function AddMangaModal() {
 
   const filtered = mangas.filter(m =>
     (m.title?.toLowerCase().includes(search.toLowerCase()) ||
-     m.author_name?.toLowerCase().includes(search.toLowerCase()))
+      m.author_name?.toLowerCase().includes(search.toLowerCase()))
   )
 
   return (

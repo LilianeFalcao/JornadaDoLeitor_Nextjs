@@ -1,27 +1,26 @@
 import Image from "next/image";
-//Images
-import Kimetsu from "@/assets/Manga_Kimetsu_No_Yaiba.jpg"
-import Lixeira from "@/assets/delete.png"
-import Up from "@/assets/Icon_Edit.png"
-import Doll from "@/assets/SonoBisqueDoll_Manga.jpg"
-import { 
-        Card, CardsContainer,CardImage , CardText, 
-        MainContainer , Progress, Filtros, Search,
-        FiltrosContainder} from "@/components/MainIndex/styles";
-import {CardActions} from "@/app/(public)/myProgress/styles"
-//import do modal em shadcn
-import { Button } from "@/components/ui/button"
+// Images
+import Kimetsu from "@/assets/Manga_Kimetsu_No_Yaiba.jpg";
+import Lixeira from "@/assets/delete.png";
+import Up from "@/assets/Icon_Edit.png";
+import Doll from "@/assets/SonoBisqueDoll_Manga.jpg";
+
 import {
-<<<<<<< HEAD
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-=======
+    Card,
+    CardsContainer,
+    CardImage,
+    CardText,
+    MainContainer,
+    Progress,
+    Filtros,
+    Search,
+    FiltrosContainder,
+    } from "@/components/MainIndex/styles";
+    import { CardActions } from "@/app/(public)/myProgress/styles";
+
+    // Imports do Shadcn UI
+    import { Button } from "@/components/ui/button";
+    import {
     Dialog,
     DialogClose,
     DialogContent,
@@ -30,23 +29,10 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
->>>>>>> 55a7e8956e83ca4fef89d7bec2cbce7faed2f279
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-
-import {
-<<<<<<< HEAD
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-=======
+    } from "@/components/ui/dialog";
+    import { Input } from "@/components/ui/input";
+    import { Label } from "@/components/ui/label";
+    import {
     AlertDialog,
     AlertDialogAction,
     AlertDialogCancel,
@@ -56,163 +42,199 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
->>>>>>> 55a7e8956e83ca4fef89d7bec2cbce7faed2f279
-} from "@/components/ui/alert-dialog"
-import { Textarea } from "@/components/ui/textarea"
+    } from "@/components/ui/alert-dialog";
+    import { Textarea } from "@/components/ui/textarea";
 
-
-export default function MyProgress ( ) {
+    export default function MyProgress() {
     return (
-        <>
-<<<<<<< HEAD
-           <MainContainer>
-=======
-            <MainContainer>
->>>>>>> 55a7e8956e83ca4fef89d7bec2cbce7faed2f279
-                <h1>Meu Progresso de Leitura</h1>
-                <p>Acompanhe e gerencie sua coleção de mangás</p>
+        <MainContainer>
+        <h1>Meu Progresso de Leitura</h1>
+        <p>Acompanhe e gerencie sua coleção de mangás</p>
 
-                <FiltrosContainder>
-                    <Search>
-                        <input type="search" 
-                        placeholder="Buscar Mangás" />
-                    </Search>
-                    <Filtros>
-                        <button type="button">Todos</button>
-                        <button type="button">Completos</button>
-                        <button type="button">Lendo...</button>
-                    </Filtros>
-                </FiltrosContainder>
+        <FiltrosContainder>
+            <Search>
+            <input type="search" placeholder="Buscar Mangás" />
+            </Search>
+            <Filtros>
+            <button type="button">Todos</button>
+            <button type="button">Completos</button>
+            <button type="button">Lendo...</button>
+            </Filtros>
+        </FiltrosContainder>
 
-                <CardsContainer>
-                    <Card>
-                        <CardImage>
-                            <Image 
-                                src= {Kimetsu} 
-                                alt="Capa do Mangá Kimetsu no Yaiba" />
-                        </CardImage>
-                        <CardText>
-                            <h4>Kimetsu no Yaiba</h4>
-                            <p>Completo</p>
-                            <p>Capítulos 205 de 205</p>
-                            <label htmlFor="progresso">Progresso</label>
-                            <Progress id="progresso" value="205" max="205">100%</Progress>
-                            <p>Atualizado em: 28-08-2025</p>
-                            <CardActions>
-                                <button>
-                                    <Image 
-                                        src= {Up} 
-                                        alt="Editar" />
-                                </button>
-                                <button>
-                                    <Image 
-                                        src={Lixeira} 
-                                        alt="Excluir" />
-                                </button>
-                            </CardActions>
-                        </CardText>
-                    </Card>
+        <CardsContainer>
+            {/* CARD 1: Kimetsu no Yaiba */}
+            <Card>
+            <CardImage>
+                <Image src={Kimetsu} alt="Capa do Mangá Kimetsu no Yaiba" />
+            </CardImage>
+            <CardText>
+                <h4>Kimetsu no Yaiba</h4>
+                <p>Completo</p>
+                <p>Capítulos 205 de 205</p>
+                <label htmlFor="progresso">Progresso</label>
+                <Progress id="progresso" value="205" max="205">100%</Progress>
+                <p>Atualizado em: 28-08-2025</p>
 
-                    <Card>
-                        <CardImage>
-                            <Image 
-                                src={Doll} 
-                                alt="Capa do Mangá Sono Bisque Doll wa Koi wo Suru" />
-                        </CardImage>
-                        <CardText>
-                            <h4>Sono Bisque Doll wa Koi wo Suru</h4>
-                            <p>Completo</p>
-                            <p>Capítulos 115.50 de 115.50</p>
-                            <label htmlFor="progresso1">Progresso</label>
-                            <Progress id="progresso1" value="115.50" max="115.50">
-                                100%
-                            </Progress>
-                            <p>Atualizado em: 01-09-2025</p>
-                            <CardActions>
-                                  <Dialog>
-                                    <DialogTrigger asChild>
-                                    <button>
-                                        <Image 
-                                        src={Up} 
-                                        alt="Editar" 
-                                        />
-                                    </button>
-                                    </DialogTrigger>
+                <CardActions>
+                {/* DIALOG para Editar Progresso */}
+                <Dialog>
+                    <DialogTrigger asChild>
+                    <button>
+                        <Image src={Up} alt="Editar" />
+                    </button>
+                    </DialogTrigger>
+                    <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Editar Progresso</DialogTitle>
+                        <DialogDescription>
+                        Atualize seu progresso abaixo para **Kimetsu no Yaiba**:
+                        </DialogDescription>
+                    </DialogHeader>
+                    <form className="flex flex-col gap-3 mt-2">
+                        <Label htmlFor="capituloAtualKimetsu">Capítulo Atual</Label>
+                        <Input
+                        type="number"
+                        id="capituloAtualKimetsu"
+                        name="capituloAtualKimetsu"
+                        placeholder="Digite o capítulo"
+                        />
 
-                                    <DialogContent>
-                                    <DialogHeader>
-                                        <DialogTitle>Editar Progresso</DialogTitle>
-                                        <DialogDescription>
-                                            Atualize seu progresso abaixo:
-                                        </DialogDescription>
-                                    </DialogHeader>
+                        <Label htmlFor="statusLeituraKimetsu">Status de Leitura</Label>
+                        <select
+                        id="statusLeituraKimetsu"
+                        name="statusLeituraKimetsu"
+                        className="border rounded p-2"
+                        >
+                        <option value="Completo">Completo</option>
+                        <option value="Lendo">Lendo</option>
+                        </select>
 
-                                    <form className="flex flex-col gap-3 mt-2">
-                                        <Label htmlFor="capituloAtual">Capítulo Atual</Label>
-                                        <Input 
-                                        type="number" 
-                                        id="capituloAtual" 
-                                        name="capituloAtual"
-                                        placeholder="Digite o capítulo" 
-                                        />
+                        <Label htmlFor="notasKimetsu">Notas</Label>
+                        <Textarea
+                        id="notasKimetsu"
+                        name="notasKimetsu"
+                        placeholder="Adicione notas sobre seus momentos favoritos"
+                        />
+                        <DialogFooter>
+                        <DialogClose asChild>
+                            <Button type="button" variant="secondary">Cancelar</Button>
+                        </DialogClose>
+                        <Button type="submit">Atualizar progresso</Button>
+                        </DialogFooter>
+                    </form>
+                    </DialogContent>
+                </Dialog>
 
-                                        <Label htmlFor="statusLeitura">Status de Leitura</Label>
-                                        <select 
-                                        id="statusLeitura" 
-                                        name="statusLeitura" 
-                                        className="border rounded p-2"
-                                        >
-                                        <option value="Completo">Completo</option>
-                                        <option value="Lendo">Lendo</option>
-                                        </select>
+                {/* ALERT DIALOG para Excluir */}
+                <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                    <button>
+                        <Image src={Lixeira} alt="Excluir" />
+                    </button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Confirmar exclusão</AlertDialogTitle>
+                        <AlertDialogDescription>
+                        Tem certeza que deseja excluir este mangá (**Kimetsu no Yaiba**)? Esta ação não poderá ser desfeita.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                        <AlertDialogAction>Excluir</AlertDialogAction>
+                    </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+                </CardActions>
+            </CardText>
+            </Card>
 
-                                        <Label htmlFor="notas">Notas</Label>
-                                        <Textarea 
-                                            id="notas" 
-                                            name="notas"
-                                            placeholder="Adicione notas sobre seus momentos favoritos" />
-                                        <DialogFooter>
-                                        <DialogClose asChild>
-                                            <Button type="button" variant="secondary">Cancelar</Button>
-                                        </DialogClose>
-                                        <Button type="submit">Atualizar progresso</Button>
-                                        </DialogFooter>
-                                    </form>
-                                    </DialogContent>
-                                </Dialog>
+            {/* CARD 2: Sono Bisque Doll wa Koi wo Suru */}
+            <Card>
+            <CardImage>
+                <Image src={Doll} alt="Capa do Mangá Sono Bisque Doll wa Koi wo Suru" />
+            </CardImage>
+            <CardText>
+                <h4>Sono Bisque Doll wa Koi wo Suru</h4>
+                <p>Completo</p>
+                <p>Capítulos 115.50 de 115.50</p>
+                <label htmlFor="progresso1">Progresso</label>
+                <Progress id="progresso1" value="115.50" max="115.50">100%</Progress>
+                <p>Atualizado em: 01-09-2025</p>
 
-                                <AlertDialog>
-                                    <AlertDialogTrigger asChild>
-                                    <button>
-                                        <Image 
-                                        src={Lixeira}
-                                        alt="Excluir"
-                                        />
-                                    </button>
-                                    </AlertDialogTrigger>
+                <CardActions>
+                <Dialog>
+                    <DialogTrigger asChild>
+                    <button>
+                        <Image src={Up} alt="Editar" />
+                    </button>
+                    </DialogTrigger>
+                    <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Editar Progresso</DialogTitle>
+                        <DialogDescription>
+                        Atualize seu progresso abaixo:
+                        </DialogDescription>
+                    </DialogHeader>
+                    <form className="flex flex-col gap-3 mt-2">
+                        <Label htmlFor="capituloAtual">Capítulo Atual</Label>
+                        <Input
+                        type="number"
+                        id="capituloAtual"
+                        name="capituloAtual"
+                        placeholder="Digite o capítulo"
+                        />
 
-                                    <AlertDialogContent>
-                                    <AlertDialogHeader>
-                                        <AlertDialogTitle>Confirmar exclusão</AlertDialogTitle>
-                                        <AlertDialogDescription>
-                                        Tem certeza que deseja excluir este mangá?
-                                        Esta ação não poderá ser desfeita.
-                                        </AlertDialogDescription>
-                                    </AlertDialogHeader>
+                        <Label htmlFor="statusLeitura">Status de Leitura</Label>
+                        <select
+                        id="statusLeitura"
+                        name="statusLeitura"
+                        className="border rounded p-2"
+                        >
+                        <option value="Completo">Completo</option>
+                        <option value="Lendo">Lendo</option>
+                        </select>
 
-                                    <AlertDialogFooter>
-                                        <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                                        <AlertDialogAction >
-                                        Excluir
-                                        </AlertDialogAction>
-                                    </AlertDialogFooter>
-                                    </AlertDialogContent>
-                                </AlertDialog>
-                            </CardActions>
-                        </CardText>
-                    </Card>
-                </CardsContainer>
-            </MainContainer>
-        </>
+                        <Label htmlFor="notas">Notas</Label>
+                        <Textarea
+                        id="notas"
+                        name="notas"
+                        placeholder="Adicione notas sobre seus momentos favoritos"
+                        />
+                        <DialogFooter>
+                        <DialogClose asChild>
+                            <Button type="button" variant="secondary">Cancelar</Button>
+                        </DialogClose>
+                        <Button type="submit">Atualizar progresso</Button>
+                        </DialogFooter>
+                    </form>
+                    </DialogContent>
+                </Dialog>
+
+                <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                    <button>
+                        <Image src={Lixeira} alt="Excluir" />
+                    </button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Confirmar exclusão</AlertDialogTitle>
+                        <AlertDialogDescription>
+                        Tem certeza que deseja excluir este mangá? Esta ação não poderá ser desfeita.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                        <AlertDialogAction>Excluir</AlertDialogAction>
+                    </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+                </CardActions>
+            </CardText>
+            </Card>
+        </CardsContainer>
+        </MainContainer>
     );
 }
