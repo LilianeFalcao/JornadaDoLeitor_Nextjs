@@ -9,6 +9,5 @@ export const BodyContainer = styled.body`
     outline: 0;
     box-sizing: border-box;
     font-family: "DM Sans", "Segoe UI", Arial, sans-serif;
-    background-color:${Colors.Fundo};
     color: ${Colors.Titulo};
 `
