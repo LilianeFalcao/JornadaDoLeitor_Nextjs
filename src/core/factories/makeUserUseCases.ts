@@ -14,25 +14,15 @@ export function makeUserUseCases() {
     const loginUser = new LoginUser(userRepository)
     const updateUser = new UpdateUser(userRepository)
     const deleteUser = new DeleteUser(userRepository)
-<<<<<<< HEAD
     const findUser = new FindUser(userRepository)
     const findByEmail = new FindUserByEmail(userRepository)
-=======
-    const findByEmail = new FindUserByEmail(userRepository)
-    const findUser = new FindUser(userRepository)
->>>>>>> 55a7e8956e83ca4fef89d7bec2cbce7faed2f279
 
     return{
         registerUser,
         loginUser,
         updateUser,
         deleteUser,
-<<<<<<< HEAD
         findUser,
         findByEmail
-=======
-        findByEmail,
-        findUser
->>>>>>> 55a7e8956e83ca4fef89d7bec2cbce7faed2f279
     }
 }

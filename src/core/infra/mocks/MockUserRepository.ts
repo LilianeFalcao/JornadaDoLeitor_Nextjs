@@ -7,17 +7,10 @@ import { Password } from "@/core/domain/value-objects/Password";
 export class MockUserRepository implements IUserRepository{
     private static instance: MockUserRepository;
     private users: User[] = [{
-<<<<<<< HEAD
         id: 'user-1',
         nickname: Nickname.create('Hawks'),
         email: Email.create('linnyohan@gmail.com'),
         password: Password.create('hashed_12345@aA')
-=======
-            id: 'user-1',
-            nickname: Nickname.create('Hawks'),
-            email: Email.create('linnYohan@gmail.com'),
-            password: Password.create('hashed_12345@aA')
->>>>>>> 55a7e8956e83ca4fef89d7bec2cbce7faed2f279
     }];
         
     private constructor() {}

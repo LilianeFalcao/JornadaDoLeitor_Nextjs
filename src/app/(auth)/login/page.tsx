@@ -1,7 +1,4 @@
 'use client'
-
-import Image from "next/image"
-import Jujustsu from "@/assets/Manga_Jujutsu_Kaisen.jpg"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
@@ -91,10 +88,6 @@ return (
         </p>
         </CardFooter>
     </Card>
-
-    <figure>
-        <Image src={Jujustsu} alt="Capa Jujutsu Kaisen cap.22" />
-    </figure>
     </LoginContainer>
 )
 }

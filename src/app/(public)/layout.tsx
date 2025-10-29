@@ -2,6 +2,7 @@ import { BodyContainer } from "@/styles/globals";
 //components
 import { Header } from "@/components/Header/index";
 import Footer from "@/components/Footer";
+import { AuthProvider } from "@/context/AuthContext";
 
 export default function PublicLayout({
   children,
@@ -11,11 +12,13 @@ export default function PublicLayout({
   return (
     <html lang="pt-br">
       <BodyContainer>
-        <Header />
-          <main>
-            {children}
-          </main>
-        <Footer />
+        <AuthProvider>
+          <Header />
+            <main>
+              {children}
+            </main>
+          <Footer />
+        </AuthProvider>
       </BodyContainer>
     </html>
   );

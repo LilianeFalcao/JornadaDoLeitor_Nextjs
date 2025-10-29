@@ -25,16 +25,16 @@ export default function RegisterPage() {
 
   const handleRegister = async () => {
     if (!nick || !email || !password) {
-      toast.error("Todos os campos são obrigatórios.")
+      toast.error("All fields are required.")
       return
     }
     try {
       const success = await register(nick, email, password)
       if (success) {
-        toast.success("Cadastro realizado!")
+        toast.success("Registration complete!")
         router.push("/login")
       } else {
-        toast.error("Este email já está em uso.")
+        toast.error("This email address is already in use.")
       }
     } catch (error) {
       console.log(error)
