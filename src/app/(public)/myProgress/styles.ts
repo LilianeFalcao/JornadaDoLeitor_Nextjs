@@ -3,12 +3,12 @@ import {Colors} from "../../../styles/colors"
 import styled from "styled-components"
 
 export const CardActions = styled.nav`
-   display: flex;
+  display: flex;
   gap: 12px;
 
   button,
   a {
-    background: ${Colors.Botao}; /* usa a paleta de cores, se disponível */
+    background: ${Colors.Botao}; 
     border: none;
     border-radius: 50%;
     width: 60px;

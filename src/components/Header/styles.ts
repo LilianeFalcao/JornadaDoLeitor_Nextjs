@@ -16,16 +16,10 @@ export const HeaderContainer = styled.header`
   img {
     height: 50px;
   }
-
-  /* Esconde o checkbox que controla o menu */
   input[type="checkbox"] {
     display: none;
   }
 
-  /* CORREÇÃO:
-     Aplicamos display: flex ao 'nav' para alinhar a label do ícone 
-     e o div dos links, facilitando a ocultação em desktop.
-  */
   nav {
     display: flex;
     align-items: center;
@@ -34,8 +28,7 @@ export const HeaderContainer = styled.header`
   nav label[for="menu-toggle"] {
     display: none;
   }
-
-  /* Layout padrão do menu (Desktop) */
+                                
   nav ul,
   nav div[nav-menu] { /* Seletor mais específico para o container dos links */
     list-style: none;

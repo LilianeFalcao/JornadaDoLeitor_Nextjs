@@ -5,7 +5,17 @@ import { Reading_Status } from "../../domain/entity/Readings";
 export class MockReadingsRepository implements IReadingsRepository {
     private static instance: MockReadingsRepository;
 
-    private readings: Readings[] = [];
+    private readings: Readings[] = [
+        Readings.create(
+        "read-1",
+        "user-1",
+        "manga-1",
+        new Date("2025-10-30"),
+        150,
+        2,
+        Reading_Status.READING,
+        "Estou adorando"
+        )];
 
     async save(reading: Readings): Promise<void>{
         this.readings.push(reading)

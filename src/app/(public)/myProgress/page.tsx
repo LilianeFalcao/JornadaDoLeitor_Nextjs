@@ -63,7 +63,6 @@ import {
         </FiltrosContainder>
 
         <CardsContainer>
-            {/* CARD 1: Kimetsu no Yaiba */}
             <Card>
             <CardImage>
                 <Image src={Kimetsu} alt="Capa do Mangá Kimetsu no Yaiba" />
@@ -77,7 +76,6 @@ import {
                 <p>Atualizado em: 28-08-2025</p>
 
                 <CardActions>
-                {/* DIALOG para Editar Progresso */}
                 <Dialog>
                     <DialogTrigger asChild>
                     <button>
@@ -126,7 +124,6 @@ import {
                     </DialogContent>
                 </Dialog>
 
-                {/* ALERT DIALOG para Excluir */}
                 <AlertDialog>
                     <AlertDialogTrigger asChild>
                     <button>
@@ -150,7 +147,6 @@ import {
             </CardText>
             </Card>
 
-            {/* CARD 2: Sono Bisque Doll wa Koi wo Suru */}
             <Card>
             <CardImage>
                 <Image src={Doll} alt="Capa do Mangá Sono Bisque Doll wa Koi wo Suru" />

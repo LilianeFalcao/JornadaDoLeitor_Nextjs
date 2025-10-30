@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 //import Image from "next/image"
 
 import { makeMangaUseCases } from "@/core/factories/makeMangaUseCases"
+import { AddReadingModal } from "../AddReadingModal/AddReadingModal"
 
 
 export function AddMangaModal() {
@@ -78,7 +79,7 @@ export function AddMangaModal() {
                 <p className="bg-[#3d3d3d] rounded-sm text-white text-sm text-center px-1 py-0.5 whitespace-nowrap">{manga.total_chapters} chapters</p>
               </div>
               <Button variant="ghost">
-                +
+                <AddReadingModal />
               </Button>
             </div>
           ))}

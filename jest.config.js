@@ -1,11 +1,19 @@
-const { createDefaultPreset } = require("ts-jest");
+/** @type{import('ts-jest').JestConfigWithTsJest} */
 
-const tsJestTransformCfg = createDefaultPreset().transform;
-
-/** @type {import("jest").Config} **/
 module.exports = {
-  testEnvironment: "node",
-  transform: {
-    ...tsJestTransformCfg,
-  },
+
+  preset: 'ts-jest',
+
+  testEnvironment: 'node',
+
+  collectCoverageFrom: [
+
+    'src/**/*.ts', // Inclui todos os arquivos .ts dentro da pasta src
+
+    '!src/**/*.test.ts', // Exclui todos os arquivos .test.ts
+
+    '!src/**/*.spec.ts'  // Exclui todos os arquivos .spec.ts
+
+  ]
+
 };
