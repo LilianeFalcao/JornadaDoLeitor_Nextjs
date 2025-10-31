@@ -16,7 +16,7 @@ export class MockMangasRepository implements IMangasRepository{
     Mangas.create(
         "manga-2",
         "https://bancaconect.com.br/wp-content/uploads/2020/12/Naruto-Gold-35-.jpg",
-        "Naruto",
+        "Naruto Shippuden",
         "Masashi Kishimoto",
         "Shonen",
         720

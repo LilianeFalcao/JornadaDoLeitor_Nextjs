@@ -24,6 +24,10 @@ export function AddMangaModal() {
   const [mangas, setMangas] = useState<Manga[]>([])
   const [search, setSearch] = useState("")
 
+  //estados para levar manga_id para o modalReading
+  const [selectedManga, setSelectedManga] = useState<Manga| null>(null);
+  const [showReadingModal, setShowReadingModal] = useState(false);
+
   useEffect(() => {
     async function loadMangas() {
       const mangaUseCases = makeMangaUseCases()
@@ -33,6 +37,19 @@ export function AddMangaModal() {
 
     loadMangas()
   }, [])
+
+  //Função abrir modal
+  const handleOpenReading = (manga: Manga) => {
+    setSelectedManga(manga);
+    setShowReadingModal(true);
+  };
+
+  const handleCloseReading = () => {
+    setShowReadingModal(false)
+    setSelectedManga(null)
+  }
+
+   
 
   const filtered = mangas.filter(m =>
     (m.title?.toLowerCase().includes(search.toLowerCase()) ||
@@ -78,13 +95,20 @@ export function AddMangaModal() {
                 <p className="text-sm text-muted-foreground">{manga.author_name}</p>
                 <p className="bg-[#3d3d3d] rounded-sm text-white text-sm text-center px-1 py-0.5 whitespace-nowrap">{manga.total_chapters} chapters</p>
               </div>
-              <Button variant="ghost">
-                <AddReadingModal />
+              <Button variant="ghost" onClick={() => handleOpenReading(manga)}>
+               +
               </Button>
             </div>
           ))}
         </ScrollArea>
       </DialogContent>
+      {selectedManga && (
+        <AddReadingModal
+          isOpen={showReadingModal}
+          onClose={handleCloseReading}
+          manga={selectedManga}
+        />
+      )}
     </Dialog>
   )
 }
