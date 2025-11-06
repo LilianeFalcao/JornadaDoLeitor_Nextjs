@@ -8,6 +8,7 @@ export class ListReadingByStatus {
         const { status } = params;
 
         const readings = await this.readingRepository.findByStatus(status);
+
         if (!readings || readings.length === 0) {
             throw new Error(`No readings found with status: ${status}`);
         }

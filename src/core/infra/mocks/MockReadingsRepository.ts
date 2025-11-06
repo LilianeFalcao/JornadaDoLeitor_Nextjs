@@ -15,6 +15,16 @@ export class MockReadingsRepository implements IReadingsRepository {
         2,
         Reading_Status.READING,
         "Estou adorando"
+        ),
+        Readings.create(
+        "read-2",
+        "user-1",
+        "manga-3",
+        new Date("2025-10-30"),
+        150,
+        2,
+        Reading_Status.READING,
+        "Estou adorando"
         )];
 
     async save(reading: Readings): Promise<void>{

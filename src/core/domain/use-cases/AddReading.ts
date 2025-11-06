@@ -4,10 +4,6 @@ import { IReadingsRepository } from "../repositories/IReadingsRepository";
 import { IUserRepository } from "../repositories/IUserRepository";
 
 
-function generateId(): string {
-        return Math.random().toString(36).substring(2, 10); 
-    }
-
 export class AddReading{
     constructor (
         private readonly readingRepository: IReadingsRepository,
@@ -50,7 +46,7 @@ export class AddReading{
     }
         
     const newReading = Readings.create(
-        generateId(),
+        Math.random().toString(),
         id_user,
         id_manga,
         new Date(),
@@ -61,6 +57,8 @@ export class AddReading{
     );
 
     await this.readingRepository.save(newReading);
+
     return newReading;
+    
     }
 }
