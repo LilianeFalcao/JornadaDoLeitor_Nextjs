@@ -19,11 +19,11 @@ export class MockReadingsRepository implements IReadingsRepository {
         Readings.create(
         "read-2",
         "user-1",
-        "manga-3",
+        "manga-4",
         new Date("2025-10-30"),
-        150,
-        2,
-        Reading_Status.READING,
+        108,
+        40,
+        Reading_Status.COMPLETED,
         "Estou adorando"
         )];
 

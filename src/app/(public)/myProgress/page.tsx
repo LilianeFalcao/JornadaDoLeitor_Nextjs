@@ -51,29 +51,41 @@ import { makeReadingUseCases } from "@/core/factories/makeReadingUseCases";
 import { useCallback, useEffect, useState } from "react";
 import { Readings } from "@/core/domain/entity/Readings";
 import { toast } from "sonner";
+import { Mangas } from "@/core/domain/entity/Mangas";
+import { makeMangaUseCases } from "@/core/factories/makeMangaUseCases";
 
 export default function MyProgress() {
- const [readings, setReadings] = useState<Readings[]>([]);
-  
-  const readingsUseCases = makeReadingUseCases(); // Nome correto da variável
-  const userId = "user-1"; // ID do usuário (exemplo)
+    const [readings, setReadings] = useState<Readings[]>([]);
+    const [mangas, setMangas] = useState<Mangas[]>([]); 
 
-  // Função para carregar as leituras
-  const loadReadings = useCallback(async () => {
-    try {
-      // Certifique-se de passar o parâmetro correto aqui
-      const data = await readingsUseCases.listUserReading.execute({ id_user: userId });
-      setReadings(data); // Atualiza o estado com as leituras
-    } catch (error) {
-      console.error(error);
-      setReadings([]); // Se algo der errado, limpa a lista
-    }
-  }, [readingsUseCases, userId]); // Certifique-se de ter as dependências corretas
+    const readingsUseCases = makeReadingUseCases();
+    const mangaUseCases = makeMangaUseCases();
 
-  // Chama a função loadReadings assim que o componente for montado
-  useEffect(() => {
-    loadReadings();
-  }, [loadReadings]); 
+    const userId = "user-1"; 
+
+    // Função para carregar as leituras
+    const loadReadingsAndMangas = useCallback(async () => {
+        try {
+        // Certifique-se de passar o parâmetro correto aqui
+        const data = await readingsUseCases.listUserReading.execute({ id_user: userId });
+        const dataMangas = await mangaUseCases.findAll.execute();
+        setReadings(data); // Atualiza o estado com as leituras
+        setMangas(dataMangas)
+        } catch (error) {
+        console.error("Erro ao carregar leituras ou mangás:", error)
+        setReadings([]); // Se algo der errado, limpa a lista
+        }
+    }, [readingsUseCases, mangaUseCases, userId]); // Certifique-se de ter as dependências corretas
+
+    // Chama a função loadReadings assim que o componente for montado
+    // UseEffect para carregar dados no início
+    useEffect(() => {
+        loadReadingsAndMangas();
+    }, [loadReadingsAndMangas]);
+
+    const getMangaById = (id_manga: string) => {
+        return mangas.find((manga) => manga.id === id_manga);
+    };
 
 return (
 <MainContainer>
@@ -92,20 +104,35 @@ return (
 </FiltrosContainder>
 
 <CardsContainer>
-    <div className="flex flex-row gap-6">
-      {/* Renderiza as leituras */}
-      {readings.length > 0 ? (
-        readings.map((reading) => (
-          <div key={reading.id_manga}>
-            <p>{reading.id_manga}</p>
-            <p>Progresso: {reading.progress}</p>
-            <p>Status: {reading.status}</p>
-          </div>
-        ))
-      ) : (
-        <p>Nenhuma leitura encontrada.</p>
-      )}
-    </div>
+
+     <section className="flex items-center gap-5 mt-8 space-y-4">
+        {readings.length === 0 ? (
+          <p className="text-gray-500">Nenhuma leitura encontrada.</p>
+        ) : (
+          readings.map((reading) => {
+            const manga = getMangaById(reading.id_manga);  // Encontra o mangá associado
+            return (
+              <div key={reading.id_manga} className="border rounded-lg p-4 hover:bg-muted/30 transition">
+                {manga && (
+                  <>
+                    <img 
+                        src={manga.img_URL} 
+                        alt={manga.title} 
+                        className="w-24 h-32 object-cover rounded" />
+                    <p><strong>{manga.title}</strong></p>
+                  </>
+                )}
+                <p>Progresso: {reading.progress.toFixed(1)}%</p>
+                <p className="bg-[]" > Status: {reading.status}</p>
+
+                <div>
+                    
+                </div>
+              </div>
+            );
+          })
+        )}
+      </section>
 
     <Card>
     <CardImage>
