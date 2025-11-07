@@ -1,223 +1,209 @@
-'use client'
-
-
+"use client";
 import Image from "next/image";
-// Images
-import Kimetsu from "@/assets/Manga_Kimetsu_No_Yaiba.jpg";
-import Lixeira from "@/assets/delete.png";
-import Up from "@/assets/Icon_Edit.png";
-//import Doll from "@/assets/SonoBisqueDoll_Manga.jpg";
-
 import {
-    Card,
-    CardsContainer,
-    CardImage,
-    CardText,
-    MainContainer,
-    Progress,
-    Filtros,
-    Search,
-    FiltrosContainder,
+  Actions,
+  CardsContainer,
+  MainContainer,
+  Filtros,
+  Search,
+  FiltrosContainder,
 } from "@/components/MainIndex/styles";
-import { CardActions } from "@/app/(public)/myProgress/styles";
-
-// Imports do Shadcn UI
-import { Button } from "@/components/ui/button";
-import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Textarea } from "@/components/ui/textarea";
-import { makeReadingUseCases } from "@/core/factories/makeReadingUseCases";
 import { useCallback, useEffect, useState } from "react";
 import { Readings } from "@/core/domain/entity/Readings";
-import { toast } from "sonner";
 import { Mangas } from "@/core/domain/entity/Mangas";
+import { makeReadingUseCases } from "@/core/factories/makeReadingUseCases";
 import { makeMangaUseCases } from "@/core/factories/makeMangaUseCases";
+import { toast } from "sonner";
 
 export default function MyProgress() {
-    const [readings, setReadings] = useState<Readings[]>([]);
-    const [mangas, setMangas] = useState<Mangas[]>([]); 
+  const [readings, setReadings] = useState<Readings[]>([]);
+  const [mangas, setMangas] = useState<Mangas[]>([]);
+  const [selectedReading, setSelectedReading] = useState<Readings | null>(null);
+  const [selectedManga, setSelectedManga] = useState<Mangas | null>(null);
+  const [modalType, setModalType] = useState<"edit" | "delete" | null>(null);
 
-    const readingsUseCases = makeReadingUseCases();
-    const mangaUseCases = makeMangaUseCases();
+  const readingsUseCases = makeReadingUseCases();
+  const mangaUseCases = makeMangaUseCases();
+  const userId = "user-1";
 
-    const userId = "user-1"; 
+  const loadReadingsAndMangas = useCallback(async () => {
+    try {
+      const data = await readingsUseCases.listUserReading.execute({
+        id_user: userId,
+      });
+      const dataMangas = await mangaUseCases.findAll.execute();
+      setReadings(data);
+      setMangas(dataMangas);
+    } catch (error) {
+      console.error("Erro ao carregar leituras ou mangás:", error);
+      setReadings([]);
+      setMangas([]);
+    }
+  }, [readingsUseCases, mangaUseCases, userId]);
 
-    // Função para carregar as leituras
-    const loadReadingsAndMangas = useCallback(async () => {
-        try {
-        // Certifique-se de passar o parâmetro correto aqui
-        const data = await readingsUseCases.listUserReading.execute({ id_user: userId });
-        const dataMangas = await mangaUseCases.findAll.execute();
-        setReadings(data); // Atualiza o estado com as leituras
-        setMangas(dataMangas)
-        } catch (error) {
-        console.error("Erro ao carregar leituras ou mangás:", error)
-        setReadings([]); // Se algo der errado, limpa a lista
-        }
-    }, [readingsUseCases, mangaUseCases, userId]); // Certifique-se de ter as dependências corretas
+  useEffect(() => {
+      loadReadingsAndMangas();
+  }, [loadReadingsAndMangas]);
 
-    // Chama a função loadReadings assim que o componente for montado
-    // UseEffect para carregar dados no início
-    useEffect(() => {
-        loadReadingsAndMangas();
-    }, [loadReadingsAndMangas]);
+  const getMangaById = (id_manga: string) =>
+    mangas.find((manga) => manga.id === id_manga) || null;
 
-    const getMangaById = (id_manga: string) => {
-        return mangas.find((manga) => manga.id === id_manga);
-    };
+  const openModal = (reading: Readings, type: "edit" | "delete") => {
+    const manga = getMangaById(reading.id_manga);
+    if (!manga) return toast.error("Mangá não encontrado.");
+    setSelectedReading(reading);
+    setSelectedManga(manga);
+    setModalType(type);
+  };
 
-return (
-<MainContainer>
-<h1>Meu Progresso de Leitura</h1>
-<p>Acompanhe e gerencie sua coleção de mangás</p>
+  const closeModal = () => {
+    setModalType(null);
+    setSelectedManga(null);
+    setSelectedReading(null);
+  };
 
-<FiltrosContainder>
-    <Search>
-    <input type="search" placeholder="Buscar Mangás" />
-    </Search>
-    <Filtros>
-    <button type="button">Todos</button>
-    <button type="button">Completos</button>
-    <button type="button">Lendo...</button>
-    </Filtros>
-</FiltrosContainder>
+  return (
+    <MainContainer>
+      <h1>Meu Progresso de Leitura</h1>
+      <p>Acompanhe e gerencie sua coleção de mangás</p>
 
-<CardsContainer>
+      <FiltrosContainder>
+        <Search>
+          <input type="search" placeholder="Buscar Mangás" />
+        </Search>
+        <Filtros>
+          <button type="button">Todos</button>
+          <button type="button">Completos</button>
+          <button type="button">Lendo...</button>
+        </Filtros>
+      </FiltrosContainder>
 
-     <section className="flex items-center gap-5 mt-8 space-y-4">
-        {readings.length === 0 ? (
-          <p className="text-gray-500">Nenhuma leitura encontrada.</p>
-        ) : (
-          readings.map((reading) => {
-            const manga = getMangaById(reading.id_manga);  // Encontra o mangá associado
-            return (
-              <div key={reading.id_manga} className="border rounded-lg p-4 hover:bg-muted/30 transition">
-                {manga && (
-                  <>
-                    <img 
-                        src={manga.img_URL} 
-                        alt={manga.title} 
-                        className="w-24 h-32 object-cover rounded" />
-                    <p><strong>{manga.title}</strong></p>
-                  </>
-                )}
-                <p>Progresso: {reading.progress.toFixed(1)}%</p>
-                <p className="bg-[]" > Status: {reading.status}</p>
-
-                <div>
-                    
-                </div>
-              </div>
-            );
-          })
-        )}
-      </section>
-
-    <Card>
-    <CardImage>
-        <Image src={Kimetsu} alt="Capa do Mangá Kimetsu no Yaiba" />
-    </CardImage>
-    <CardText>
-        <h4>Kimetsu no Yaiba</h4>
-        <p>Completo</p>
-        <p>Capítulos 205 de 205</p>
-        <label htmlFor="progresso">Progresso</label>
-        <Progress id="progresso" value="205" max="205">100%</Progress>
-        <p>Atualizado em: 28-08-2025</p>
-
-        <CardActions>
-        <Dialog>
-            <DialogTrigger asChild>
-            <button>
-                <Image src={Up} alt="Editar" />
-            </button>
-            </DialogTrigger>
-            <DialogContent>
-            <DialogHeader>
-                <DialogTitle>Editar Progresso</DialogTitle>
-                <DialogDescription>
-                Atualize seu progresso abaixo para **Kimetsu no Yaiba**:
-                </DialogDescription>
-            </DialogHeader>
-            <form className="flex flex-col gap-3 mt-2">
-                <Label htmlFor="capituloAtualKimetsu">Capítulo Atual</Label>
-                <Input
-                type="number"
-                id="capituloAtualKimetsu"
-                name="capituloAtualKimetsu"
-                placeholder="Digite o capítulo"
-                />
-
-                <Label htmlFor="statusLeituraKimetsu">Status de Leitura</Label>
-                <select
-                id="statusLeituraKimetsu"
-                name="statusLeituraKimetsu"
-                className="border rounded p-2"
+      <CardsContainer>
+        <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10">
+          {readings.length === 0 ? (
+            <p className="col-span-full text-center text-gray-500 text-lg italic">
+              Nenhuma leitura encontrada.
+            </p>
+          ) : (
+            readings.map((reading) => {
+              const manga = getMangaById(reading.id_manga);
+              return (
+                <div
+                  key={reading.id_manga}
+                  className="flex flex-col items-center bg-white border border-gray-200 rounded-2xl p-5 shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
                 >
-                <option value="Completo">Completo</option>
-                <option value="Lendo">Lendo</option>
-                </select>
+                  {manga && (
+                    <>
+                      <img
+                        src={manga.img_URL}
+                        alt={manga.title}
+                        className="w-32 h-44 object-cover rounded-lg mb-4 shadow-sm"
+                      />
+                      <p className="text-center text-gray-800 font-semibold text-lg mb-2">
+                        {manga.title}
+                      </p>
+                    </>
+                  )}
+                  <div className="w-full text-sm text-gray-600 mb-4">
+                    <p className="flex justify-between">
+                      <span>Progresso:</span>
+                      <span className="font-medium text-gray-800">
+                        {reading.progress.toFixed(1)}%
+                      </span>
+                    </p>
+                    <p className="flex justify-between">
+                      <span>Status:</span>
+                      <span className="font-medium text-gray-800">
+                        {reading.status}
+                      </span>
+                    </p>
+                  </div>
 
-                <Label htmlFor="notasKimetsu">Notas</Label>
-                <Textarea
-                id="notasKimetsu"
-                name="notasKimetsu"
-                placeholder="Adicione notas sobre seus momentos favoritos"
-                />
-                <DialogFooter>
-                <DialogClose asChild>
-                    <Button type="button" variant="secondary">Cancelar</Button>
-                </DialogClose>
-                <Button type="submit">Atualizar progresso</Button>
-                </DialogFooter>
+                  <div className="flex justify-center gap-3 mt-auto">
+                    <button
+                      onClick={() => openModal(reading, "edit")}
+                      className="px-4 py-2 text-sm font-medium rounded-xl bg-indigo-500 text-white hover:bg-indigo-600 transition"
+                    >
+                      Editar
+                    </button>
+                    <button
+                      onClick={() => openModal(reading, "delete")}
+                      className="px-4 py-2 text-sm font-medium rounded-xl bg-red-500 text-white hover:bg-red-600 transition"
+                    >
+                      Excluir
+                    </button>
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </section>
+      </CardsContainer>
+
+
+      {/* Modal Simples de Edição */}
+      {modalType === "edit" && selectedManga && selectedReading && (
+        <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
+          <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
+            <h2 className="text-lg font-bold mb-3">
+              Editar progresso de {selectedManga.title}
+            </h2>
+            <form className="flex flex-col gap-3">
+              <label>Capítulo Atual</label>
+              <input
+                type="number"
+                defaultValue={selectedReading.current_chapter}
+                className="border rounded px-2 py-1"
+              />
+              <div className="flex justify-end gap-3 mt-4">
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  className="px-3 py-1 bg-gray-300 rounded"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="px-3 py-1 bg-blue-500 text-white rounded"
+                >
+                  Atualizar
+                </button>
+              </div>
             </form>
-            </DialogContent>
-        </Dialog>
+          </div>
+        </div>
+      )}
 
-        <AlertDialog>
-            <AlertDialogTrigger asChild>
-            <button>
-                <Image src={Lixeira} alt="Excluir" />
-            </button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-            <AlertDialogHeader>
-                <AlertDialogTitle>Confirmar exclusão</AlertDialogTitle>
-                <AlertDialogDescription>
-                Tem certeza que deseja excluir este mangá Kimetsu no Yaiba? Esta ação não poderá ser desfeita.
-                </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-                <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                <AlertDialogAction>Excluir</AlertDialogAction>
-            </AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
-        </CardActions>
-    </CardText>
-    </Card>
-</CardsContainer>
-</MainContainer>
-);
+      {/* Modal Simples de Exclusão */}
+      {modalType === "delete" && selectedManga && selectedReading && (
+        <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
+          <div className="bg-white rounded-lg p-6 w-80 shadow-lg text-center">
+            <h2 className="text-lg font-bold mb-3">Excluir leitura</h2>
+            <p>
+              Tem certeza que deseja excluir{" "}
+              <strong>{selectedManga.title}</strong>?
+            </p>
+            <div className="flex justify-center gap-3 mt-4">
+              <button
+                onClick={closeModal}
+                className="px-3 py-1 bg-gray-300 rounded"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={() => {
+                  toast.success(`Excluindo ${selectedManga.title}...`);
+                  closeModal();
+                }}
+                className="px-3 py-1 bg-red-500 text-white rounded"
+              >
+                Excluir
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </MainContainer>
+  );
 }

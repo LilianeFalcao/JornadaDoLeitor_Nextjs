@@ -9,6 +9,7 @@ import { MockReadingsRepository } from "../infra/mocks/MockReadingsRepository";
 import { MockUserRepository } from "../infra/mocks/MockUserRepository";
 import { MockMangasRepository } from "../infra/mocks/MockMangasRepository";
 import { ListUserReading } from "../domain/use-cases/ListUserReading";
+import { ListReadingByStatus } from "../domain/use-cases/ListReadingByStatus";
 
 export function makeReadingUseCases() {
     const readingsRepository: IReadingsRepository = MockReadingsRepository.getInstance();
@@ -22,11 +23,13 @@ export function makeReadingUseCases() {
     );
 
     const deleteReading = new DeleteReading(readingsRepository);
-    const listUserReading = new ListUserReading(readingsRepository)
+    const listUserReading = new ListUserReading(readingsRepository);
+    const listReadingByStatus = new ListReadingByStatus(readingsRepository)
 
     return {
         addReading,
         deleteReading,
-        listUserReading
+        listUserReading,
+        listReadingByStatus
     };
 }
