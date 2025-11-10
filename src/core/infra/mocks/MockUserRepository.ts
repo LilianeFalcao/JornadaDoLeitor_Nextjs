@@ -19,7 +19,7 @@ export class MockUserRepository implements IUserRepository{
         if(!MockUserRepository.instance) {
             MockUserRepository.instance = new MockUserRepository();
         }
-        return MockUserRepository.instance;
+        return MockUserRepository.instance; 
     }
 
     async save(user: User): Promise<void> {

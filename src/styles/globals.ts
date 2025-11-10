@@ -3,7 +3,7 @@
 import styled from "styled-components"
 import { Colors } from "./colors"
 
-export const BodyContainer = styled.body`
+export const BodyContainer = styled.section`
     margin: 0;
     padding: 0;
     outline: 0;

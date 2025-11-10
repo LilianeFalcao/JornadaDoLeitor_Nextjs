@@ -2,6 +2,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "../ui/label"
+import Image from "next/image"
 
 interface Manga {
   id: string
@@ -33,7 +34,7 @@ export function AddReadingModal({ isOpen, onClose, manga }: AddReadingModalProps
 
         <section className="flex flex-col max-w-md">
           <div className="space-y-3 flex items-center justify-between p-3 border rounded-lg hover:bg-muted transition">
-            <img
+            <Image
               src={manga.img_URL}
               alt={`Capa de ${manga.title}`}
               width={150}

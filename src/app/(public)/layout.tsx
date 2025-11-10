@@ -10,16 +10,14 @@ export default function PublicLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-br">
+   <AuthProvider>
       <BodyContainer>
-        <AuthProvider>
-          <Header />
-            <main>
-              {children}
-            </main>
-          <Footer />
-        </AuthProvider>
+        <Header />
+          <main>
+            {children}
+          </main>
+        <Footer />
       </BodyContainer>
-    </html>
+    </AuthProvider>
   );
 }

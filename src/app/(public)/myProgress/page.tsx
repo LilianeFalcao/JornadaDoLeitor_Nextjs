@@ -1,66 +1,67 @@
-"use client";
-import Image from "next/image";
 import {
-  Actions,
   CardsContainer,
   MainContainer,
   Filtros,
   Search,
   FiltrosContainder,
 } from "@/components/MainIndex/styles";
-import { useCallback, useEffect, useState } from "react";
+//import {  useState } from "react";
 import { Readings } from "@/core/domain/entity/Readings";
 import { Mangas } from "@/core/domain/entity/Mangas";
 import { makeReadingUseCases } from "@/core/factories/makeReadingUseCases";
 import { makeMangaUseCases } from "@/core/factories/makeMangaUseCases";
-import { toast } from "sonner";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+//import { toast } from "sonner";
 
-export default function MyProgress() {
-  const [readings, setReadings] = useState<Readings[]>([]);
-  const [mangas, setMangas] = useState<Mangas[]>([]);
-  const [selectedReading, setSelectedReading] = useState<Readings | null>(null);
-  const [selectedManga, setSelectedManga] = useState<Mangas | null>(null);
-  const [modalType, setModalType] = useState<"edit" | "delete" | null>(null);
+//import Image from "next/image";
+
+export default async function MyProgress() {
+  // const [readings, setReadings] = useState<Readings[]>([]);
+  // const [mangas, setMangas] = useState<Mangas[]>([]);
+  // const [selectedReading, setSelectedReading] = useState<Readings | null>(null);
+  // const [selectedManga, setSelectedManga] = useState<Mangas | null>(null);
+  // const [modalType, setModalType] = useState<"edit" | "delete" | null>(null);
 
   const readingsUseCases = makeReadingUseCases();
   const mangaUseCases = makeMangaUseCases();
   const userId = "user-1";
 
-  const loadReadingsAndMangas = useCallback(async () => {
-    try {
-      const data = await readingsUseCases.listUserReading.execute({
-        id_user: userId,
-      });
-      const dataMangas = await mangaUseCases.findAll.execute();
-      setReadings(data);
-      setMangas(dataMangas);
-    } catch (error) {
-      console.error("Erro ao carregar leituras ou mangás:", error);
-      setReadings([]);
-      setMangas([]);
-    }
-  }, [readingsUseCases, mangaUseCases, userId]);
+  // const loadReadingsAndMangas = useCallback(async () => {
+  //   try {
+  const readings = await readingsUseCases.listUserReading.execute({
+    id_user: userId,
+  });
+  const mangas = await mangaUseCases.findAll.execute();
+  // setReadings(data);
+  // setMangas(dataMangas);
+  //   } catch (error) {
+  //     console.error("Erro ao carregar leituras ou mangás:", error);
+  //     setReadings([]);
+  //     setMangas([]);
+  //   }
+  // }, [readingsUseCases, mangaUseCases, userId]);
 
-  useEffect(() => {
-      loadReadingsAndMangas();
-  }, [loadReadingsAndMangas]);
+  // useEffect(() => {
+  //     loadReadingsAndMangas();
+  // }, [loadReadingsAndMangas]);
 
   const getMangaById = (id_manga: string) =>
     mangas.find((manga) => manga.id === id_manga) || null;
 
-  const openModal = (reading: Readings, type: "edit" | "delete") => {
-    const manga = getMangaById(reading.id_manga);
-    if (!manga) return toast.error("Mangá não encontrado.");
-    setSelectedReading(reading);
-    setSelectedManga(manga);
-    setModalType(type);
-  };
+  // const openModal = (reading: Readings, type: "edit" | "delete") => {
+  //   const manga = getMangaById(reading.id_manga);
+  //   if (!manga) return toast.error("Mangá não encontrado.");
+  //   setSelectedReading(reading);
+  //   setSelectedManga(manga);
+  //   setModalType(type);
+  // };
 
-  const closeModal = () => {
-    setModalType(null);
-    setSelectedManga(null);
-    setSelectedReading(null);
-  };
+  // const closeModal = () => {
+  //   setModalType(null);
+  //   setSelectedManga(null);
+  //   setSelectedReading(null);
+  // };
 
   return (
     <MainContainer>
@@ -97,6 +98,8 @@ export default function MyProgress() {
                       <img
                         src={manga.img_URL}
                         alt={manga.title}
+                        width={150}
+                        height={200}
                         className="w-32 h-44 object-cover rounded-lg mb-4 shadow-sm"
                       />
                       <p className="text-center text-gray-800 font-semibold text-lg mb-2">
@@ -120,16 +123,10 @@ export default function MyProgress() {
                   </div>
 
                   <div className="flex justify-center gap-3 mt-auto">
-                    <button
-                      onClick={() => openModal(reading, "edit")}
-                      className="px-4 py-2 text-sm font-medium rounded-xl bg-indigo-500 text-white hover:bg-indigo-600 transition"
-                    >
+                    <button className="px-4 py-2 text-sm font-medium rounded-xl bg-indigo-500 text-white hover:bg-blue-600 transition">
                       Editar
                     </button>
-                    <button
-                      onClick={() => openModal(reading, "delete")}
-                      className="px-4 py-2 text-sm font-medium rounded-xl bg-red-500 text-white hover:bg-red-600 transition"
-                    >
+                    <button className="px-4 py-2 text-sm font-medium rounded-xl bg-red-500 text-white hover:bg-red-600 transition">
                       Excluir
                     </button>
                   </div>
@@ -140,70 +137,41 @@ export default function MyProgress() {
         </section>
       </CardsContainer>
 
-
-      {/* Modal Simples de Edição */}
-      {modalType === "edit" && selectedManga && selectedReading && (
-        <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
-          <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
-            <h2 className="text-lg font-bold mb-3">
-              Editar progresso de {selectedManga.title}
-            </h2>
-            <form className="flex flex-col gap-3">
-              <label>Capítulo Atual</label>
-              <input
-                type="number"
-                defaultValue={selectedReading.current_chapter}
-                className="border rounded px-2 py-1"
-              />
-              <div className="flex justify-end gap-3 mt-4">
-                <button
-                  type="button"
-                  onClick={closeModal}
-                  className="px-3 py-1 bg-gray-300 rounded"
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  className="px-3 py-1 bg-blue-500 text-white rounded"
-                >
-                  Atualizar
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* Modal Simples de Exclusão */}
-      {modalType === "delete" && selectedManga && selectedReading && (
-        <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
-          <div className="bg-white rounded-lg p-6 w-80 shadow-lg text-center">
-            <h2 className="text-lg font-bold mb-3">Excluir leitura</h2>
-            <p>
-              Tem certeza que deseja excluir{" "}
-              <strong>{selectedManga.title}</strong>?
-            </p>
-            <div className="flex justify-center gap-3 mt-4">
-              <button
-                onClick={closeModal}
-                className="px-3 py-1 bg-gray-300 rounded"
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={() => {
-                  toast.success(`Excluindo ${selectedManga.title}...`);
-                  closeModal();
-                }}
-                className="px-3 py-1 bg-red-500 text-white rounded"
-              >
-                Excluir
-              </button>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button>Adicionar Progresso</Button>
+        </DialogTrigger>
+        
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Adicionar Mangá à sua Lista</DialogTitle>
+            <p>Procure um título de mangá para adicionar à sua lista de leitura</p>
+          </DialogHeader>
+          <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
+            <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
+              <h2 className="text-lg font-bold mb-3">Editar progresso de</h2>
+              <form className="flex flex-col gap-3">
+                <label>Capítulo Atual</label>
+                <input type="number" className="border rounded px-2 py-1" />
+                <div className="flex justify-end gap-3 mt-4">
+                  <button
+                    type="button"
+                    className="px-3 py-1 bg-gray-300 rounded"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-3 py-1 bg-blue-500 text-white rounded"
+                  >
+                    Atualizar
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
-        </div>
-      )}
+        </DialogContent>
+      </Dialog>
     </MainContainer>
   );
 }
