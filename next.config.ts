@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     styledComponents: true
   },
   images: {
-    domains: ["d14d9vp3wdof84.cloudfront.net", "imgs.search.brave.com"]
+    domains: ["d14d9vp3wdof84.cloudfront.net", "imgs.search.brave.com", "bancaconect.com.br"]
   }
 };
 

@@ -9,7 +9,8 @@ import { Button } from "@/components/ui/button"
 
 import { makeMangaUseCases } from "@/core/factories/makeMangaUseCases"
 import { AddReadingModal } from "../AddReadingModal/AddReadingModal"
-
+import { useAuth } from "@/context/AuthContext"
+import Image from "next/image"
 
 export function AddMangaModal() {
 
@@ -27,6 +28,8 @@ export function AddMangaModal() {
   //estados para levar manga_id para o modalReading
   const [selectedManga, setSelectedManga] = useState<Manga| null>(null);
   const [showReadingModal, setShowReadingModal] = useState(false);
+
+  const { user } = useAuth()
 
   useEffect(() => {
     async function loadMangas() {
@@ -49,6 +52,10 @@ export function AddMangaModal() {
     setSelectedManga(null)
   }
 
+  const handleReadingAdded = () => {
+    handleCloseReading();
+    // Optionally, you could add a toast notification here
+  };
    
 
   const filtered = mangas.filter(m =>
@@ -82,7 +89,7 @@ export function AddMangaModal() {
               className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted transition"
             >
               <div>
-                <img 
+                <Image 
                   src={manga.img_URL} 
                   alt={`Capa do mangá ${manga.title}`} 
                   width={100} 
@@ -102,11 +109,13 @@ export function AddMangaModal() {
           ))}
         </ScrollArea>
       </DialogContent>
-      {selectedManga && (
+      {selectedManga && user && (
         <AddReadingModal
           isOpen={showReadingModal}
           onClose={handleCloseReading}
           manga={selectedManga}
+          idUser={user.id}
+          onAddReading={handleReadingAdded}
         />
       )}
     </Dialog>
