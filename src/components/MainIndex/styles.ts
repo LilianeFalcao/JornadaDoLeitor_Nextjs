@@ -22,8 +22,13 @@ export const MainContainer = styled.main`
 
 // Container de cards
 export const CardsContainer = styled.section`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  align-items: center;
+  justify-content: center;
+  background-color: ${Colors.Cards};
+  border-radius: 15px;
   gap: 20px;
   width: 100%;
   max-width: 1200px;

@@ -11,12 +11,13 @@ export class MockReadingsRepository implements IReadingsRepository {
         "user-1",
         "manga-1",
         new Date("2025-10-30"),
-        150,
-        2,
+        220,
+        50,
         Reading_Status.READING,
         "Estou adorando"
         ),
-        Readings.create(
+        
+       Readings.create(
         "read-2",
         "user-1",
         "manga-4",
@@ -26,7 +27,8 @@ export class MockReadingsRepository implements IReadingsRepository {
         Reading_Status.COMPLETED,
         "Estou adorando"
         ),
-        Readings.create(
+
+        Readings.create( 
         "read-3",
         "user-1",
         "manga-3",
