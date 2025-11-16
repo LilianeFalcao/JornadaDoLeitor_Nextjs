@@ -17,7 +17,7 @@ export class MockReadingsRepository implements IReadingsRepository {
         "Estou adorando"
         ),
         
-       Readings.create(
+        Readings.create(
         "read-2",
         "user-1",
         "manga-4",
@@ -32,6 +32,16 @@ export class MockReadingsRepository implements IReadingsRepository {
         "read-3",
         "user-1",
         "manga-3",
+        new Date("2025-10-30"),
+        108,
+        40,
+        Reading_Status.COMPLETED,
+        "Estou adorando"
+        ),
+        Readings.create( 
+        "read-4",
+        "user-2",
+        "manga-2",
         new Date("2025-10-30"),
         108,
         40,
@@ -86,4 +96,7 @@ export class MockReadingsRepository implements IReadingsRepository {
         return MockReadingsRepository.instance;
     }
     
+    clear(): void {
+        this.readings = [];
+    }
 }

@@ -16,6 +16,8 @@ export const HeaderContainer = styled.header`
   img {
     height: 50px;
   }
+
+  /* Esconde o checkbox em todas as telas */
   input[type="checkbox"] {
     display: none;
   }
@@ -25,12 +27,13 @@ export const HeaderContainer = styled.header`
     align-items: center;
   }
 
+  /* Esconde o ícone do hambúrguer em telas maiores */
   nav label[for="menu-toggle"] {
     display: none;
   }
                                 
   nav ul,
-  nav div[nav-menu] { /* Seletor mais específico para o container dos links */
+  .nav-menu ul { /* Seletores para os links na versão desktop */
     list-style: none;
     display: flex;
     gap: 20px;
@@ -64,8 +67,13 @@ export const HeaderContainer = styled.header`
     }
   }
 
+  /* * ############################
+   * ESTILOS MOBILE (max-width: 648px)
+   * ############################
+   */
   @media (max-width: 648px) {
 
+    /* Mostra o ícone do hambúrguer e o estiliza */
     nav label[for="menu-toggle"] {
       display: flex;
       flex-direction: column;
@@ -74,10 +82,6 @@ export const HeaderContainer = styled.header`
       height: 25px;
       cursor: pointer;
       z-index: 200;
-
-      & ~ div[nav-menu] {
-        display: none; 
-      }
 
       span {
         display: block;
@@ -88,12 +92,13 @@ export const HeaderContainer = styled.header`
       }
     }
 
+    /* Estiliza e esconde o menu por padrão */
     .nav-menu {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       padding: 20px;
-
+      
       position: absolute;
       top: 5rem;
       left: 0;
@@ -101,11 +106,14 @@ export const HeaderContainer = styled.header`
       background-color: ${Colors.CorCabecalho};
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       z-index: 150;
+      
+      /* Esconde o menu com transform e opacidade */
       transform: translateY(-120%);
       opacity: 0;
       transition: transform 0.4s ease, opacity 0.4s ease;
 
-      & > ul[nav-menu] {
+      /* Estilos para o conteúdo interno do menu */
+      & > ul {
         flex-direction: column;
         align-items: flex-start;
         width: 100%;
@@ -117,21 +125,26 @@ export const HeaderContainer = styled.header`
       }
     }
 
-    input[type="checkbox"]:checked ~ nav div[nav-menu] {
-      transform: translateY(0);
-      opacity: 1;
+    input[type="checkbox"]:checked ~ .nav-menu {
+    transform: translateY(0);
+    opacity: 1;
     }
 
-
-    input[type="checkbox"]:checked ~ nav label span:nth-child(2) {
+    /* 2. Animação da barra do meio do hambúrguer */
+    /* Removeu o 'nav' do seletor */
+    input[type="checkbox"]:checked ~ label span:nth-child(2) {
       opacity: 0;
     }
 
-    input[type="checkbox"]:checked ~ nav label span:nth-child(1) {
+    /* 3. Animação da barra superior (rotaciona 45 graus) */
+    /* Removeu o 'nav' do seletor */
+    input[type="checkbox"]:checked ~ label span:nth-child(1) {
       transform: translateY(11px) rotate(45deg);
     }
 
-    input[type="checkbox"]:checked ~ nav label span:nth-child(3) {
+    /* 4. Animação da barra inferior (rotaciona -45 graus) */
+    /* Removeu o 'nav' do seletor */
+    input[type="checkbox"]:checked ~ label span:nth-child(3) {
       transform: translateY(-11px) rotate(-45deg);
     }
   }

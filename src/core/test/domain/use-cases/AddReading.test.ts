@@ -16,8 +16,8 @@ describe("Add reading", () => {
             mangaRepository
         )
 
-        const userId = "user_1"; 
-        const mangaId = "1"
+        const userId = "user-1"; 
+        const mangaId = "manga-1"
 
         const result = await addReading.execute({
             id_user: userId,
@@ -47,7 +47,7 @@ describe("Add reading", () => {
         await expect(
             addReading.execute({
                 id_user: "non_existent_user",
-                id_manga: "1",
+                id_manga: "manga-1",
                 current_chapter: 10
             })
         ).rejects.toThrow("User not found");
@@ -66,8 +66,8 @@ describe("Add reading", () => {
 
         await expect(
             addReading.execute({
-                id_user: "user_1",
-                id_manga: "999",
+                id_user: "user-1",
+                id_manga: "manga-999",
                 current_chapter: 10
             })
         ).rejects.toThrow("Manga not found");
@@ -85,8 +85,8 @@ describe("Add reading", () => {
         mangaRepository
     );
 
-    const userId = "user_1";
-    const mangaId = "1";
+    const userId = "user-1";
+    const mangaId = "manga-1";
 
     const initialReading = Readings.create(
         "existing_id",

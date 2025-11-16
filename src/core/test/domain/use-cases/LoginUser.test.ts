@@ -5,7 +5,7 @@ import { MockUserRepository } from "../../../infra/mocks/MockUserRepository"
 
 describe("LoginUser", () => {
     beforeEach(() => {
-        MockUserRepository.getInstance().reset();
+        MockUserRepository.getInstance().clear();
     });
 
     it("Should login a user", async () => {

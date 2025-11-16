@@ -1,41 +1,54 @@
-import { Reading_Status, Readings } from "../../../domain/entity/Readings";
-import { FindByUserId } from "../../../domain/use-cases/FindByUserId";
-import { MockReadingsRepository } from "../../../infra/mocks/MockReadingsRepository"
+import { ListUserReading } from "../../../domain/use-cases/ListUserReading";
+import { MockReadingsRepository } from "../../../infra/mocks/MockReadingsRepository";
+import { Readings, Reading_Status } from "../../../domain/entity/Readings";
 
-describe("List user reading", () => {
-    it("must list a reading by user", async() => {
-        const readingRepository = MockReadingsRepository.getInstance();
-        const findByUserId = new FindByUserId(readingRepository)
+describe("ListUserReading Use Case", () => {
+  let repository: MockReadingsRepository;
+  let listUserReading: ListUserReading;
 
-        const userId = "user_1";
-        const reading1 = Readings.create(
-            '1',
-            userId,
-            'manga-24',
-            new Date(),
-            25,
-            15,
-            Reading_Status.READING,
-            'Muito engraçado'
-        );
-        const reading2 = Readings.create(
-            '2',
-            userId,
-            "manga_2",
-            new Date(),
-            50,
-            100,
-            Reading_Status.READING,
-            "Gostando muito até agora!"
-        )
+  beforeEach(() => {
+    repository = MockReadingsRepository.getInstance();
+    repository.clear(); // importante para resetar o estado entre testes
+    listUserReading = new ListUserReading(repository);
+  });
 
-        await readingRepository.save(reading1)
-        await readingRepository.save(reading2)
+  it("should list readings for the user", async () => {
+    const reading1 = Readings.create(
+      "1",
+      "user_1",
+      "manga_1",
+      new Date(),
+      10,
+      20,
+      Reading_Status.READING,
+      "Boa leitura"
+    );
 
-        const result = await findByUserId.execute({userId})
-        
-        expect(result.readings).toHaveLength(2);
-        expect(result.readings[0].id_user).toBe(userId);
-        expect(result.readings[1].id_user).toBe(userId);
-    })
-})
+    const reading2 = Readings.create(
+      "2",
+      "user_1",
+      "manga_2",
+      new Date(),
+      50,
+      100,
+      Reading_Status.READING,
+      "Excelente até agora"
+    );
+
+    await repository.save(reading1);
+    await repository.save(reading2);
+
+    const result = await listUserReading.execute({ id_user: "user_1" });
+
+    expect(result).toHaveLength(2);
+    expect(result[0].id_user).toBe("user_1");
+    expect(result[1].id_user).toBe("user_1");
+  });
+
+  it("should throw if no readings exist for this user (empty array)", async () => {
+    // nenhum save → findByUserId() retorna []
+    await expect(
+      listUserReading.execute({ id_user: "usuario_inexistente" })
+    ).rejects.toThrow("No readings found for this user");
+  });
+});

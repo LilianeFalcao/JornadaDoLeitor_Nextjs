@@ -6,6 +6,7 @@ import { Password } from "@/core/domain/value-objects/Password";
 
 export class MockUserRepository implements IUserRepository{
     private static instance: MockUserRepository;
+
     private users: User[] = [{
         id: 'user-1',
         nickname: Nickname.create('Hawks'),
@@ -15,7 +16,7 @@ export class MockUserRepository implements IUserRepository{
         
     private constructor() {}
 
-    public static getInstance(): MockUserRepository {
+    static getInstance(): MockUserRepository {
         if(!MockUserRepository.instance) {
             MockUserRepository.instance = new MockUserRepository();
         }
@@ -45,8 +46,12 @@ export class MockUserRepository implements IUserRepository{
         this.users = this.users.filter(user => user.id !== id);
     }
 
-    public reset(): void {
+    clear(): void {
         this.users = [];
+    }
+
+    getAll(): User[] {
+        return this.users;
     }
 
 }

@@ -32,7 +32,7 @@ export const CardsContainer = styled.section`
   gap: 20px;
   width: 100%;
   max-width: 1200px;
-  padding: 20px;
+  padding: 15px;
 `;
 
 // Card individual

@@ -27,10 +27,9 @@ export function Header() {
             src={Logo} alt="Logo do site Jornada do Leitor" 
             height={50} />
       </Link>
-
-      <input type="checkbox" id="menu-toggle" hidden /> 
-       
       <nav>
+        <input type="checkbox" id="menu-toggle" hidden /> 
+
         <label htmlFor="menu-toggle" aria-label="Abrir Menu de Navegação">
             <span></span>
             <span></span>
