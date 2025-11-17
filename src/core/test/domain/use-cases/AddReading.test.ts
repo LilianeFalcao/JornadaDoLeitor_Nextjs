@@ -5,6 +5,10 @@ import { MockUserRepository } from "../../../infra/mocks/MockUserRepository";
 import { MockMangasRepository } from "../../../infra/mocks/MockMangasRepository";
 
 describe("Add reading", () => {
+    beforeEach(() => {
+        MockReadingsRepository.getInstance().clear();
+        MockUserRepository.getInstance().clear();
+    });
     it("must add a new reading successfully", async () => {
         const readingRepository = MockReadingsRepository.getInstance();
         const userRepository = MockUserRepository.getInstance();

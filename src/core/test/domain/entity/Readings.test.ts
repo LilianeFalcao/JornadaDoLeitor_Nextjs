@@ -9,8 +9,8 @@ describe ('Readings', () => {
             'user-1',
             'manga-24',
             start_date,
-            25,
             15,
+            25,
             Reading_Status.READING,
             'Muito engraçado'
         );

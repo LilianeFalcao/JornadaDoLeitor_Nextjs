@@ -7,12 +7,12 @@ describe("Readings", () => {
     });
 
     it("Give error if current chapter is invalid", () => {
-        expect(() => Readings.create(-1, 5)).toThrow("current chapter is invalid.");
+        expect(() => Readings.create(-1, 5)).toThrow("O capítulo atual é inválido.");
     });
 
     it("Generate error if last update is less than current chapter", () => {
         expect(() => Readings.create(10, 5)).toThrow(
-            "last update is less than current chapter"
+            "A última atualização não pode ser menor que o capítulo atual."
         );
     });
 });

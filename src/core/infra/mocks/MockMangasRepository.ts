@@ -29,14 +29,6 @@ export class MockMangasRepository implements IMangasRepository{
         "Shounen",
         686
     ),
-    Mangas.create(
-        "manga-4",
-        "https://imgs.search.brave.com/1yt4EHx9fAln-hJ-yFhYwY2_3kUY9a-WjQTBZOcT2ok/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvcHQvdGh1bWIv/OS85Zi9GdWxsbWV0/YWxfQWxjaGVtaXN0/LmpwZy81MTJweC1G/dWxsbWV0YWxfQWxj/aGVtaXN0LmpwZw",
-        "Fullmetal Alchemist",
-        "Hiromu Arakawa",
-        "Shounen",
-        108
-    ),
     ];
 
     public static getInstance(): MockMangasRepository{

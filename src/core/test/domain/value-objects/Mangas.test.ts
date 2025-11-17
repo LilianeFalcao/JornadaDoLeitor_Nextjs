@@ -13,27 +13,27 @@ describe("Mangas", () => {
 
     it("Does not allow invalid title", () => {
         expect(() => Mangas.create("", "https://site.com/onepiece.jpg", 2))
-            .toThrow("The manga title is invalid.");
+            .toThrow("Manga title is invalid.");
     });
 
     it("Does not allow invalid URL", () => {
         expect(() => Mangas.create("Naruto", "invalid-url", 2))
-            .toThrow("Image URL is invalid..");
+            .toThrow("The URL of the passed image is invalid.");
     });
     
     it("Empty title, please fill in the field", () => {
         expect(() => Mangas.create("          ", "https://site.com/onepiece.jpg", 2))
-            .toThrow("The manga title is invalid.");
+            .toThrow("Manga title is invalid.");
     });
     it("Does not allow very long title", () => {
         const longTitle = "a".repeat(201);
         expect(() => Mangas.create(longTitle, "https://site.com/onepiece.jpg", 2))
-            .toThrow("The manga title is invalid.");
+            .toThrow("Manga title is invalid.");
     });
 
     it("Number of chapters cannot be less than zero", () => {
         expect(() => Mangas.create("Naruto", "https://site.com/onepiece.jpg", -2 ))
-            .toThrow("Invalid number of chapters");
+            .toThrow("Past chapter is not valid.");
     });
 
 });

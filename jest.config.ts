@@ -1,7 +1,11 @@
 import type { Config } from 'jest'
 import nextJest from 'next/jest.js'
 import { pathsToModuleNameMapper } from 'ts-jest'
-import tsconfig from './tsconfig.json' with { type: 'json' }
+import { readFileSync } from 'fs'
+import { parse } from 'jsonc-parser'
+
+const tsconfig = parse(readFileSync('./tsconfig.json', 'utf8'))
+
 
 const createJestConfig = nextJest({
   // Caminho do app Next para carregar next.config.js e variáveis .env

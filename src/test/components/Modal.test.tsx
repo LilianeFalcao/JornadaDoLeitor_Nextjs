@@ -3,6 +3,13 @@ import "@testing-library/jest-dom";
 import React from "react";
 import { AddMangaModal } from "@/components/AddMangaModal/AddMangaModal";
 
+// mock do next/router
+jest.mock("next/router", () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+  }),
+}));
+
 // mock do next/image (Jest não suporta)
 jest.mock("next/image", () => {
   return function MockedImage(props: React.ImgHTMLAttributes<HTMLImageElement>) {

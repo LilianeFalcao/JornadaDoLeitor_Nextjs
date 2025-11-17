@@ -3,6 +3,10 @@ import { RegisterUser } from '../../../domain/use-cases/RegisterUser';
 import { MockUserRepository } from '../../../infra/mocks/MockUserRepository';
 
 describe('UpdateUser', () => {
+    beforeEach(() => {
+        MockUserRepository.getInstance().clear();
+    });
+
     it('should update a user', async () => {
         const userRepository = MockUserRepository.getInstance();
         const registerUser = new RegisterUser(userRepository);

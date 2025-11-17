@@ -8,10 +8,10 @@ describe ('MockMangasRepository', () => {
     })
 
     it("must return manga by Id", async () => {
-        const result = await repo.findById('1')
+        const result = await repo.findById('manga-1')
 
         expect(result).toBeDefined(); 
-        expect(result?.id).toBe("1"); 
+        expect(result?.id).toBe("manga-1"); 
         expect(result?.title).toBe("Vinland Saga");
     })
 
@@ -23,7 +23,7 @@ describe ('MockMangasRepository', () => {
     });
 
     it("must return manga by title", async () => {
-        const result = await repo.findByTitle("Naruto");
+        const result = await repo.findByTitle("Naruto Shippuden");
 
         expect(result).not.toBeNull();
         expect(result?.author_name).toBe("Masashi Kishimoto");

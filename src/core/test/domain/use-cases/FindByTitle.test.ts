@@ -5,10 +5,10 @@ describe("Find by manga title", () => {
     it("should find a manga by title", async ()=> {
         const mangasRepository = MockMangasRepository.getInstance();
         const findByTitle = new FindByTitle(mangasRepository)
-        const result = await findByTitle.execute({ title: "Naruto" });
+        const result = await findByTitle.execute({ title: "Naruto Shippuden" });
 
         expect(result).not.toBeNull();
-        expect(result?.title).toBe("Naruto");
+        expect(result?.title).toBe("Naruto Shippuden");
         expect(result?.author_name).toBe("Masashi Kishimoto");
         expect(result?.total_chapters).toBe(720);
     });

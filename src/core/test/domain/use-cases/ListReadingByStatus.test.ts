@@ -3,6 +3,9 @@ import { ListReadingByStatus } from "../../../domain/use-cases/ListReadingByStat
 import { MockReadingsRepository } from "../../../infra/mocks/MockReadingsRepository"
 
 describe("List reading by status" , () => {
+    beforeEach(() => {
+        MockReadingsRepository.getInstance().clear();
+    });
     it("should list readings by status" , async() => {
         const readingRepository = MockReadingsRepository.getInstance()
         
@@ -50,8 +53,8 @@ describe("List reading by status" , () => {
         expect(result).toHaveLength(2);
         expect(result).toEqual(
             expect.arrayContaining([
-                expect.objectContaining({ id: "user-1" }),
-                expect.objectContaining({ id: "user-3" }),
+                expect.objectContaining({ id_user: "user-1" }),
+                expect.objectContaining({ id_user: "user-3" }),
             ])
         )
 

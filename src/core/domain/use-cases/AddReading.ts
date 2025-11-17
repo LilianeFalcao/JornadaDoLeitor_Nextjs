@@ -41,8 +41,7 @@ export class AddReading{
         existingReading.updateProgress(current_chapter, progress, status);
         if (notes) existingReading.updateNotes(notes);
 
-        await this.readingRepository.update(existingReading);
-        return existingReading;
+        return await this.readingRepository.update(existingReading);
     }
         
     const newReading = Readings.create(
