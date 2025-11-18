@@ -56,7 +56,6 @@ export function AddMangaModal() {
     handleCloseReading();
     // Optionally, you could add a toast notification here
   };
-   
 
   const filtered = mangas.filter(m =>
     (m.title?.toLowerCase().includes(search.toLowerCase()) ||
@@ -103,7 +102,7 @@ export function AddMangaModal() {
                 <p className="bg-[#3d3d3d] rounded-sm text-white text-sm text-center px-1 py-0.5 whitespace-nowrap">{manga.total_chapters} chapters</p>
               </div>
               <Button variant="ghost" onClick={() => handleOpenReading(manga)}>
-               +
+                +
               </Button>
             </div>
           ))}

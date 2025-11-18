@@ -3,22 +3,43 @@ import { Reading_Status, Readings } from "../../../domain/entity/Readings";
 import { MockReadingsRepository } from "../../../infra/mocks/MockReadingsRepository";
 import { MockUserRepository } from "../../../infra/mocks/MockUserRepository";
 import { MockMangasRepository } from "../../../infra/mocks/MockMangasRepository";
+import { User } from "../../../domain/entity/User";
+import { Mangas } from "../../../domain/entity/Mangas";
 
 describe("Add reading", () => {
-    beforeEach(() => {
-        MockReadingsRepository.getInstance().clear();
-        MockUserRepository.getInstance().clear();
-    });
-    it("must add a new reading successfully", async () => {
-        const readingRepository = MockReadingsRepository.getInstance();
-        const userRepository = MockUserRepository.getInstance();
-        const mangaRepository = MockMangasRepository.getInstance();
-
-        const addReading = new AddReading(
+    let userRepository: MockUserRepository;
+    let mangaRepository: MockMangasRepository;
+    let readingRepository: MockReadingsRepository;
+    let addReading: AddReading;
+    const manga = Mangas.create(
+        "manga-1",
+        "Jujutsu Kaisen",
+        "Gege Akutami",
+        "https://www.manga-jujutsu-kaisen.com",
+        "Shounen",
+        220,
+        "Em andamento"
+    );
+    const user = User.create(
+        "user-1",
+        "Lilia",
+        "lilia@gmail.com",
+        "password"
+    );
+    beforeEach(async () => {
+        userRepository = MockUserRepository.getInstance();
+        mangaRepository = MockMangasRepository.getInstance();
+        readingRepository = MockReadingsRepository.getInstance();
+        addReading = new AddReading(
             readingRepository,
             userRepository,
             mangaRepository
-        )
+        );
+        await userRepository.save(user);
+        await mangaRepository.save(manga);
+        readingRepository.clear();
+    });
+    it("must add a new reading successfully", async () => {
 
         const userId = "user-1"; 
         const mangaId = "manga-1"
@@ -38,15 +59,6 @@ describe("Add reading", () => {
     });
 
     it("should throw an error if user does not exist", async () => {
-        const readingRepository = MockReadingsRepository.getInstance();
-        const userRepository = MockUserRepository.getInstance();
-        const mangaRepository = MockMangasRepository.getInstance();
-
-        const addReading = new AddReading(
-            readingRepository,
-            userRepository,
-            mangaRepository
-        );
 
         await expect(
             addReading.execute({
@@ -58,15 +70,6 @@ describe("Add reading", () => {
     });
 
     it("should throw an error if manga does not exist", async () => {
-        const readingRepository = MockReadingsRepository.getInstance();
-        const userRepository = MockUserRepository.getInstance();
-        const mangaRepository = MockMangasRepository.getInstance();
-
-        const addReading = new AddReading(
-            readingRepository,
-            userRepository,
-            mangaRepository
-        );
 
         await expect(
             addReading.execute({
@@ -79,16 +82,6 @@ describe("Add reading", () => {
 
 
     it("should update an existing reading if it already exists", async () => {
-    const readingRepository = MockReadingsRepository.getInstance();
-    const userRepository = MockUserRepository.getInstance();
-    const mangaRepository = MockMangasRepository.getInstance();
-
-    const addReading = new AddReading(
-        readingRepository,
-        userRepository,
-        mangaRepository
-    );
-
     const userId = "user-1";
     const mangaId = "manga-1";
 

@@ -31,6 +31,10 @@ export class MockMangasRepository implements IMangasRepository{
     ),
     ];
 
+    async save(manga: Mangas): Promise<void> {
+        this.mangas.push(manga);
+    }
+
     public static getInstance(): MockMangasRepository{
         if(!MockMangasRepository.instance){
             MockMangasRepository.instance = new MockMangasRepository();

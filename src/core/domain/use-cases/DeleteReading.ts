@@ -12,8 +12,8 @@ export class DeleteReading{
     const { id_user, id_manga } = params;
 
         await this.readingRepository.delete(
-            id_user,
-            id_manga
+            id_manga,
+            id_user
         )
     }
 
