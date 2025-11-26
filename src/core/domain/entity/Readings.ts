@@ -1,6 +1,7 @@
 export enum Reading_Status {
     READING = "reading",
-    COMPLETED = "completed"
+    COMPLETED = "completed",
+    ALL = "all"
 }
 export class Readings{
     private constructor(

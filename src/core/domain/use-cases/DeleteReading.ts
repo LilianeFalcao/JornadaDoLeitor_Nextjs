@@ -1,6 +1,5 @@
 import { IReadingsRepository } from "../repositories/IReadingsRepository";
 
-
 export class DeleteReading{
     constructor (private readonly readingRepository: IReadingsRepository) {}
 

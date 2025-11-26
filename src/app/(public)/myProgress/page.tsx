@@ -6,25 +6,50 @@ import {
 } from "@/components/MainIndex/styles";
 import { makeReadingUseCases } from "@/core/factories/makeReadingUseCases";
 import { makeMangaUseCases } from "@/core/factories/makeMangaUseCases";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { ReadingActions } from "@/components/ReadingActions/ReadingActions";
+type Reading_Status = "reading" | "completed";
+
+interface Reading {
+  id: string;
+  id_user: string;
+  id_manga: string;
+  progress: number;
+  status: Reading_Status;
+  current_chapter: number;
+  notes: string;
+}
+interface Manga {
+  id: string;
+  title: string;
+  img_URL: string;
+  total_chapters: number;
+}
+
+// DEFINIÇÃO DA INTERFACE DO COMPONENTE CLIENTE DENTRO DO COMPONENTE SERVER
+// ISSO É UM WORKAROUND PARA O ERRO DE TIPAGEM ENTRE MÓDULOS NO AMBIENTE DE COMPILAÇÃO
+interface ReadingActionsProps {
+  readingId: string;
+  mangaTitle: string;
+  id_user: string;
+  id_manga: string;
+  initialChapter: number;
+  initialStatus: Reading_Status; // Tipo real do Use Case
+  initialNotes: string;
+  totalChapters: number;
+}
 
 export default async function MyProgress() {
   const readingsUseCases = makeReadingUseCases();
   const mangaUseCases = makeMangaUseCases();
   const userId = "user-1";
 
-  const readings = await readingsUseCases.listUserReading.execute({
+  // 1. Carregamento de dados (Tipagem explícita para forçar a compatibilidade)
+  const readings: Reading[] = (await readingsUseCases.listUserReading.execute({
     id_user: userId,
-  });
-  const mangas = await mangaUseCases.findAll.execute();
+  })) as Reading[]; // Asserção de tipo para corresponder à interface local
+
+  const mangas: Manga[] = (await mangaUseCases.findAll.execute()) as Manga[];
 
   const getMangaById = (id_manga: string) =>
     mangas.find((manga) => manga.id === id_manga) || null;
@@ -67,6 +92,10 @@ export default async function MyProgress() {
         ) : (
           readings.map((reading) => {
             const manga = getMangaById(reading.id_manga);
+            const totalChapters = manga?.total_chapters || 1;
+
+            // Asserção para o tipo do status na chamada do componente
+            const status: Reading_Status = reading.status as Reading_Status;
 
             return (
               <div
@@ -95,97 +124,28 @@ export default async function MyProgress() {
                   <p>
                     <strong>Progresso:</strong> {reading.progress.toFixed(1)}%
                   </p>
-                  <p  >
+                  <p>
                     <strong>Status:</strong>
                     <span
                       className={`font-medium m-3 ${
                         reading.status === "completed"
                           ? "bg-emerald-600 p-1 text-[#ffffff] rounded-md "
                           : reading.status === "reading"
-                          ? "bg-amber-600 p-1 text-[#ffffff] rounded-md "  
-                          : "bg -gray-600 p-1 text-[#ffffff] rounded-md "
+                          ? "bg-amber-600 p-1 text-[#ffffff] rounded-md "
+                          : "bg-gray-600 p-1 text-[#ffffff] rounded-md "
                       }`}
                     >
                       {reading.status}
                     </span>
                   </p>
-                </div>
-
-                <div className="flex justify-between gap-3">
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button className="flex-1 bg-cyan-600 hover:bg-cyan-700 text-white font-medium py-2 rounded-lg transition">
-                        Editar
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="bg-white rounded-lg shadow-xl">
-                      <DialogHeader>
-                        <DialogTitle className="text-xl font-semibold text-gray-800">
-                          Editar progresso de {manga?.title}
-                        </DialogTitle>
-                        <p className="text-gray-500 text-sm mt-1">
-                          Atualize o capítulo atual para manter seu progresso
-                          sincronizado.
-                        </p>
-                      </DialogHeader>
-                      <form className="flex flex-col gap-4 mt-4">
-                        <label className="text-gray-700 font-medium text-sm">
-                          Capítulo Atual
-                        </label>
-                        <input
-                          type="number"
-                          className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-cyan-500 outline-none"
-                        />
-                        <div className="flex justify-end gap-3">
-                          <button
-                            type="button"
-                            className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-lg transition"
-                          >
-                            Cancelar
-                          </button>
-                          <button
-                            type="submit"
-                            className="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg transition"
-                          >
-                            Atualizar
-                          </button>
-                        </div>
-                      </form>
-                    </DialogContent>
-                  </Dialog>
-
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button className="flex-1 bg-red-600 hover:bg-red-700 text-white font-medium py-2 rounded-lg transition">
-                        Deletar
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="bg-white rounded-lg shadow-xl">
-                      <DialogHeader>
-                        <DialogTitle className="text-xl font-semibold text-gray-800">
-                          Remover {manga?.title}?
-                        </DialogTitle>
-                        <p className="text-gray-500 text-sm mt-1">
-                          Esta ação é irreversível. Deseja realmente excluir
-                          este mangá da sua lista?
-                        </p>
-                      </DialogHeader>
-                      <div className="flex justify-end gap-3 mt-6">
-                        <button
-                          type="button"
-                          className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-lg transition"
-                        >
-                          Cancelar
-                        </button>
-                        <button
-                          type="submit"
-                          className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition"
-                        >
-                          Deletar
-                        </button>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
+                  <ReadingActions
+                    readingId={reading.id}
+                    mangaTitle={manga?.title || "Mangá Desconhecido"}
+                    id_user={reading.id_user}
+                    id_manga={reading.id_manga}
+                    initialChapter={reading.current_chapter}
+                    totalChapters={totalChapters}
+                  />
                 </div>
               </div>
             );
@@ -193,5 +153,5 @@ export default async function MyProgress() {
         )}
       </section>
     </MainContainer>
-  );
+  );    
 }
