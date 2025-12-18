@@ -25,10 +25,10 @@ const handleLogin = async () => {
     try {
     const success = await login(email, password)
     if (success) {
-        toast.success("Login realizado!")
+        toast.success("Login successfully!")
         router.push("/")
     } else {
-        toast.error("Credenciais inválidas. Tente novamente.")
+    toast.error("Invalid credentials. Please try again.")
     }
     } catch (error) {
     toast.error(String(error))
