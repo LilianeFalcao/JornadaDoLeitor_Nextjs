@@ -1,124 +1,25 @@
 "use client";
 
-import { useState, FormEvent, Fragment, ReactNode, MouseEvent } from "react";
+import React, { useState, FormEvent, ReactNode } from "react";
 import { toast } from "sonner";
 
 /* ============================================================
-   MOCKS DE COMPONENTES (para funcionar fora do projeto real)
-   Em produção, substitua pelos imports corretos.
+   INTERFACES DE TIPAGEM (Substituindo o 'any')
    ============================================================*/
 
-// --- Button (Mock) ---
 interface MockButtonProps {
   children: ReactNode;
   className?: string;
-  onClick?: (e?: MouseEvent<HTMLButtonElement>) => void;
-  type?: "button" | "submit";
-  asChild?: boolean;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  type?: "button" | "submit" | "reset";
+  disabled?: boolean;
 }
 
-const Button = ({
-  children,
-  className = "",
-  onClick,
-  type = "button",
-  asChild = false,
-}: MockButtonProps) => {
-  if (asChild) return <>{children}</>;
-  return (
-    <button
-      type={type}
-      onClick={onClick}
-      className={`px-4 py-2 rounded-lg transition ${className}`}
-    >
-      {children}
-    </button>
-  );
-};
-
-// --- Dialog (Mock) ---
 interface MockDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   children: ReactNode;
 }
-
-const Dialog = ({ open, onOpenChange, children }: MockDialogProps) => {
-  if (!open) return null;
-
-  const closeOnBackdrop = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) onOpenChange(false);
-  };
-
-  return (
-    <div
-      className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
-      onClick={closeOnBackdrop}
-    >
-      <div
-        className="bg-white rounded-xl shadow-2xl max-w-lg w-full p-6"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {children}
-      </div>
-    </div>
-  );
-};
-
-const DialogContent = ({
-  children,
-  className = "",
-}: {
-  children: ReactNode;
-  className?: string;
-}) => <div className={className}>{children}</div>;
-
-const DialogHeader = ({ children }: { children: ReactNode }) => (
-  <header className="mb-4">{children}</header>
-);
-
-const DialogTitle = ({
-  children,
-  className = "",
-}: {
-  children: ReactNode;
-  className?: string;
-}) => <h2 className={`text-xl font-bold ${className}`}>{children}</h2>;
-
-/* ============================================================
-   MOCK DOS USE CASES TIPADOS
-   ============================================================*/
-
-interface UpdateReadingParams {
-  id_user: string;
-  id_manga: string;
-  new_current_chapter: number;
-  total_chapters: number;
-}
-
-interface DeleteReadingParams {
-  id_user: string;
-  id_manga: string;
-}
-
-const mockUseCases = {
-  updateReading: {
-    execute: async (params: UpdateReadingParams) => {
-      console.log("MOCK UPDATE:", params);
-      await new Promise((res) => setTimeout(res, 500));
-    },
-  },
-  deleteReading: {
-    execute: async (params: DeleteReadingParams) => {
-      console.log("MOCK DELETE:", params);
-      await new Promise((res) => setTimeout(res, 500));
-    },
-  },
-};
-
-/* ============================================================
-   COMPONENTE PRINCIPAL
-   ============================================================*/
 
 interface ReadingActionsProps {
   readingId: string;
@@ -126,183 +27,185 @@ interface ReadingActionsProps {
   id_user: string;
   id_manga: string;
   initialChapter: number;
+  initialStatus?: string;
+  initialNotes?: string;
   totalChapters: number;
 }
 
+/* ============================================================
+   COMPONENTES MOCKADOS (Tipados)
+   ============================================================*/
+
+const Button = ({ 
+  children, 
+  className = "", 
+  onClick, 
+  type = "button", 
+  disabled = false 
+}: MockButtonProps) => (
+  <button
+    type={type}
+    onClick={onClick}
+    disabled={disabled}
+    className={`px-4 py-2 rounded-lg transition-all active:scale-95 disabled:opacity-50 ${className}`}
+  >
+    {children}
+  </button>
+);
+
+const Dialog = ({ open, onOpenChange, children }: MockDialogProps) => {
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+      <div 
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity" 
+        onClick={() => onOpenChange(false)} 
+      />
+      <div className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 animate-in zoom-in-95 duration-200">
+        {children}
+      </div>
+    </div>
+  );
+};
+
+/* ============================================================
+   COMPONENTE PRINCIPAL
+   ============================================================*/
+
 export function ReadingActions({
   mangaTitle,
-  id_user,
-  id_manga,
   initialChapter,
+  initialStatus = "reading",
+  initialNotes = "",
   totalChapters,
 }: ReadingActionsProps) {
-  const [currentChapter, setCurrentChapter] = useState(initialChapter);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  
+  // Estados tipados corretamente
+  const [currentChapter, setCurrentChapter] = useState<number>(initialChapter);
+  const [notes, setNotes] = useState<string>(initialNotes);
+  const [status, setStatus] = useState<string>(initialStatus);
+  
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const readingsUseCases = mockUseCases;
-
-  const refreshData = () => {
-    console.log("MOCK refresh()");
+  // Reseta os dados ao abrir o modal para evitar glitches entre mangás diferentes
+  const openEditModal = () => {
+    setCurrentChapter(initialChapter);
+    setNotes(initialNotes);
+    setStatus(initialStatus);
+    setIsEditDialogOpen(true);
   };
 
-  /* ------------------------ UPDATE ------------------------ */
-  const handleUpdateReading = async (e: FormEvent) => {
+  const handleUpdateReading = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setIsSubmitting(true);
     try {
-      await readingsUseCases.updateReading.execute({
-        id_user,
-        id_manga,
-        new_current_chapter: currentChapter,
-        total_chapters: totalChapters,
-      });
-
+      // Simulação de delay de rede
+      await new Promise((resolve) => setTimeout(resolve, 600)); 
+      
       setIsEditDialogOpen(false);
-      refreshData();
-      toast.success("Progresso atualizado com sucesso!");
+      toast.success(`${mangaTitle} atualizado!`);
     } catch (error) {
       console.error(error);
       toast.error("Erro ao atualizar progresso.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
-
-  /* ------------------------ DELETE ------------------------ */
-  const handleDeleteReading = async () => {
-    try {
-      await readingsUseCases.deleteReading.execute({
-        id_user,
-        id_manga,
-      });
-
-      setIsDeleteDialogOpen(false);
-      refreshData();
-      toast.success(`${mangaTitle} removido com sucesso!`);
-    } catch (error) {
-      console.error(error);
-      toast.error("Erro ao deletar mangá.");
-    }
-  };
-
-  /* ============================================================
-     RENDER
-     ============================================================*/
 
   return (
-    <div className="flex justify-between gap-3">
-      {/* --- Botão Editar --- */}
+    <div className="flex justify-between gap-3 w-full">
+      {/* Botão Editar */}
       <Button
-        className="flex-1 bg-cyan-600 hover:bg-cyan-700 text-white font-medium rounded-xl shadow-sm"
-        onClick={() => {
-          setCurrentChapter(initialChapter);
-          setIsEditDialogOpen(true);
-        }}
+        className="flex-1 bg-cyan-600 hover:bg-cyan-700 text-white font-medium shadow-md"
+        onClick={openEditModal}
       >
         Editar
       </Button>
 
-      {/* --- Modal Editar --- */}
+      {/* Modal Editar */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="bg-white/90 backdrop-blur-md border border-gray-200 rounded-2xl shadow-2xl p-6 max-w-md">
-          <DialogHeader>
-            <DialogTitle>
-              Editar progresso de{" "}
-              <span className="text-cyan-700">{mangaTitle}</span>
-            </DialogTitle>
-            <p className="text-gray-500 text-sm mt-1">
-              Atualize o capítulo atual e mantenha o progresso sincronizado.
-            </p>
-          </DialogHeader>
+        <div className="mb-6">
+          <h2 className="text-xl font-bold text-gray-800">
+            Editar <span className="text-cyan-600">{mangaTitle}</span>
+          </h2>
+          <p className="text-gray-500 text-sm">Ajuste seu progresso de leitura.</p>
+        </div>
 
-          <form className="flex flex-col gap-4 mt-4" onSubmit={handleUpdateReading}>
-            <label className="text-gray-700 font-medium text-sm">
-              Capítulo Atual{" "}
-              <span className="text-gray-500">(Máx: {totalChapters})</span>
-            </label>
-
+        <form className="space-y-4" onSubmit={handleUpdateReading}>
+          <div className="flex flex-col gap-1.5">
+            <label className="text-sm font-semibold text-gray-700">Capítulo Atual</label>
             <input
               type="number"
               value={currentChapter}
               min={0}
               max={totalChapters}
-              onChange={(e) => setCurrentChapter(Number(e.target.value) || 0)}
-              className="border border-gray-300 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-cyan-500 bg-gray-50"
+              onChange={(e) => setCurrentChapter(Number(e.target.value))}
+              className="w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-cyan-500 outline-none bg-gray-50 text-gray-900"
             />
-            <label className="text-gray-700 font-medium text-sm">
-                Notas
-            </label>
-                <textarea 
-                id="notas" 
-                name="notas"
-                placeholder="Adicione notas sobre seus momentos favoritos">
-            </textarea>
-            <label className="text-gray-700 font-medium text-sm">
-                Status de Leitura
-            </label>
-            <select 
-                id="statusLeitura" 
-                name="statusLeitura">
-                <option value="Completo">Completo</option>
-                <option value="Lendo">Lendo</option>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <label className="text-sm font-semibold text-gray-700">Notas</label>
+            <textarea
+              rows={3}
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              placeholder="Momentos favoritos..."
+              className="w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-cyan-500 outline-none bg-gray-50 resize-none text-sm text-gray-900"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <label className="text-sm font-semibold text-gray-700">Status</label>
+            <select
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              className="w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-cyan-500 outline-none bg-gray-50 text-sm text-gray-900 cursor-pointer"
+            >
+              <option value="reading">Lendo</option>
+              <option value="completed">Completo</option>
+              <option value="dropped">Parei de ler</option>
             </select>
-            <div className="flex justify-end gap-3 pt-3">
-              <Button
-                type="button"
-                className="bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg"
-                onClick={() => setIsEditDialogOpen(false)}
-              >
-                Cancelar
-              </Button>
+          </div>
 
-              <Button
-                type="submit"
-                className="bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg shadow-sm"
-              >
-                Atualizar
-              </Button>
-            </div>
-          </form>
-        </DialogContent>
-      </Dialog>
-
-      {/* --- Botão Deletar --- */}
-      <Button
-        className="flex flex-row justify-center bg-red-600 hover:bg-red-700 text-white font-medium rounded-xl shadow-sm"
-        onClick={() => setIsDeleteDialogOpen(true)}
-      >
-        Deletar
-      </Button>
-
-      {/* --- Modal Deletar --- */}
-      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <DialogContent className="bg-white/95 backdrop-blur-xl border border-gray-200 rounded-2xl shadow-2xl p-6 max-w-md">
-          <DialogHeader>
-            <DialogTitle>
-              Remover <span className="text-red-600">{mangaTitle}</span>?
-            </DialogTitle>
-            <p className="text-gray-500 text-sm mt-1">
-              Esta ação é permanente e não poderá ser desfeita.
-            </p>
-          </DialogHeader>
-
-          <div className="flex justify-end gap-3 mt-6">
+          <div className="flex justify-end gap-3 pt-4">
             <Button
-              type="button"
-              className="bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg"
-              onClick={() => setIsDeleteDialogOpen(false)}
+              className="bg-gray-100 hover:bg-gray-200 text-gray-700"
+              onClick={() => setIsEditDialogOpen(false)}
             >
               Cancelar
             </Button>
-
-            <Button
-              type="button"
-              onClick={handleDeleteReading}
-              className="bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-sm"
+            <Button 
+              type="submit" 
+              className="bg-cyan-600 text-white shadow-lg"
+              disabled={isSubmitting}
             >
-              Deletar
+              {isSubmitting ? "Salvando..." : "Salvar Alterações"}
             </Button>
           </div>
-        </DialogContent>
+        </form>
+      </Dialog>
+
+      {/* Botão Remover */}
+      <Button
+        className="bg-red-50 text-red-600 hover:bg-red-100 font-medium"
+        onClick={() => setIsDeleteDialogOpen(true)}
+      >
+        Remover
+      </Button>
+
+      {/* Modal Deletar */}
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <h2 className="text-lg font-bold text-gray-800 mb-2">Remover da lista?</h2>
+        <p className="text-gray-500 mb-6 text-sm">
+          Isso apagará permanentemente seu registro de <strong>{mangaTitle}</strong>.
+        </p>
+        <div className="flex justify-end gap-3">
+          <Button className="bg-gray-100 text-gray-700" onClick={() => setIsDeleteDialogOpen(false)}>Voltar</Button>
+          <Button className="bg-red-600 text-white shadow-md">Confirmar Exclusão</Button>
+        </div>
       </Dialog>
     </div>
   );
