@@ -30,3 +30,4 @@ export const CardActions = styled.nav`
     }
   }
 `;
+

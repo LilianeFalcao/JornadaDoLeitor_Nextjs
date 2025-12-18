@@ -57,26 +57,28 @@ export default async function MyProgress() {
         </p>
       </header>
 
-      <FiltrosContainder className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-        <Search className="relative flex-1">
-          <input
-            type="search"
-            placeholder="Buscar Mangás"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 outline-none shadow-sm text-gray-700"
-          />
-        </Search>
-        <Filtros className="flex gap-3">
-          <button className="px-4 py-2 rounded-lg bg-cyan-600 text-white hover:bg-cyan-700 transition shadow-sm">
-            Todos
-          </button>
-          <button className="px-4 py-2 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 transition">
-            Completos
-          </button>
-          <button className="px-4 py-2 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 transition">
-            Lendo...
-          </button>
-        </Filtros>
-      </FiltrosContainder>
+      <FiltrosContainder className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 rounded-2xl p-4 min-[386px]:p-5 bg-white shadow-sm">
+      <Search className="relative flex-1 w-full">
+        <input
+          type="search"
+          placeholder="Buscar Mangás"
+          className="w-full px-4 py-2 rounded-lg focus:ring-2 focus:ring-cyan-500 outline-none shadow-sm text-gray-700"
+        />
+      </Search>
+
+      {/* Ajuste nos botões para não estourarem em telas menores que 386px */}
+      <Filtros className="flex flex-wrap gap-2 min-[386px]:gap-3">
+        <button className="flex-1 min-[386px]:flex-none px-3 min-[386px]:px-4 py-2 rounded-lg bg-cyan-600 text-white hover:bg-cyan-700 transition shadow-sm text-sm min-[386px]:text-base">
+          Todos
+        </button>
+        <button className="flex-1 min-[386px]:flex-none px-3 min-[386px]:px-4 py-2 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 transition text-sm min-[386px]:text-base">
+          Completos
+        </button>
+        <button className="flex-1 min-[386px]:flex-none px-3 min-[386px]:px-4 py-2 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 transition text-sm min-[386px]:text-base">
+          Lendo...
+        </button>
+      </Filtros>
+    </FiltrosContainder>
 
       <section className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
         {readings.length === 0 ? (
