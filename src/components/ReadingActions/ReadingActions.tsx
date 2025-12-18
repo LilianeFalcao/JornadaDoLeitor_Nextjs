@@ -88,6 +88,7 @@ export function ReadingActions({
   const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
   // Reseta os dados ao abrir o modal para evitar glitches entre mangás diferentes
   const openEditModal = () => {
@@ -105,12 +106,35 @@ export function ReadingActions({
       await new Promise((resolve) => setTimeout(resolve, 600)); 
       
       setIsEditDialogOpen(false);
-      toast.success(`${mangaTitle} atualizado!`);
+      toast.success(`${mangaTitle} updated!`);
     } catch (error) {
       console.error(error);
-      toast.error("Erro ao atualizar progresso.");
+      toast.error("Error updating progress.");
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  /* ------------------------ DELETE ------------------------ */
+  const handleDeleteReading = async () => {
+    setIsDeleting(true); // Inicia o loading do delete
+    try {
+      // Simulação de chamada ao UseCase/API
+      await new Promise((resolve) => setTimeout(resolve, 800));
+
+      // Aqui você chamaria seu use case real:
+      // await readingsUseCases.deleteReading.execute({ id_user, id_manga });
+
+      setIsDeleteDialogOpen(false); // Fecha o modal após o sucesso
+      toast.success(`${mangaTitle} removido da sua lista!`);
+      
+      // Dica: Se quiser atualizar a tela do MyProgress automaticamente:
+      // router.refresh(); 
+    } catch (error) {
+      console.error(error);
+      toast.error("Erro ao remover mangá.");
+    } finally {
+      setIsDeleting(false); // Finaliza o loading
     }
   };
 
@@ -204,7 +228,13 @@ export function ReadingActions({
         </p>
         <div className="flex justify-end gap-3">
           <Button className="bg-gray-100 text-gray-700" onClick={() => setIsDeleteDialogOpen(false)}>Voltar</Button>
-          <Button className="bg-red-600 text-white shadow-md">Confirmar Exclusão</Button>
+          <Button
+            onClick={handleDeleteReading}
+            disabled={isDeleting} // Desabilita enquanto deleta
+            className="bg-red-600 hover:bg-red-700 text-white shadow-sm min-w-[100px]"
+          >
+          {isDeleting ? "Removendo..." : "Confirmar Exclusão"}
+        </Button>
         </div>
       </Dialog>
     </div>
